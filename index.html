@@ -57,14 +57,29 @@
 
         body.day-mode .hero-title {
             color: #003366;
+            background: rgba(0, 51, 102, 0.05);
+            border-color: rgba(0, 51, 102, 0.2);
+            box-shadow: 
+                inset 3px 3px 8px rgba(0, 51, 102, 0.1),
+                inset -3px -3px 8px rgba(255, 255, 255, 0.5);
         }
 
         body.day-mode .subtitle {
             color: #222;
+            background: rgba(0, 51, 102, 0.05);
+            border-color: rgba(0, 51, 102, 0.2);
+            box-shadow: 
+                inset 2px 2px 5px rgba(0, 51, 102, 0.1),
+                inset -2px -2px 5px rgba(255, 255, 255, 0.5);
         }
         
         body.day-mode .location {
             color: #222;
+            background: rgba(0, 51, 102, 0.05);
+            border-color: rgba(0, 51, 102, 0.2);
+            box-shadow: 
+                inset 2px 2px 5px rgba(0, 51, 102, 0.1),
+                inset -2px -2px 5px rgba(255, 255, 255, 0.5);
         }
 
         body.day-mode .section-title {
@@ -73,6 +88,11 @@
 
         body.day-mode .about-text {
             color: #333;
+            background: rgba(0, 51, 102, 0.05);
+            border-color: rgba(0, 51, 102, 0.2);
+            box-shadow: 
+                inset 3px 3px 8px rgba(0, 51, 102, 0.1),
+                inset -3px -3px 8px rgba(255, 255, 255, 0.5);
         }
 
         body.day-mode .tech-card {
@@ -273,7 +293,7 @@
         }
         
         .nav-hint-top {
-            top: 30px;
+            top: 80px;
         }
         
         .nav-hint-bottom {
@@ -345,12 +365,23 @@
         .controls {
             position: fixed;
             top: 1rem;
-            left: 1rem;
-            right: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
             z-index: 100;
             display: flex;
-            justify-content: space-around;
+            justify-content: center;
             align-items: center;
+            gap: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .controls {
+                left: 1rem;
+                right: 1rem;
+                transform: none;
+                justify-content: space-around;
+                gap: 0.5rem;
+            }
         }
 
         .control-item {
@@ -648,10 +679,8 @@
         }
 
         @keyframes sectionBounce {
-            0% { transform: translateY(0) scale(0.95); }
-            60% { transform: translateY(0) scale(1.02); }
-            80% { transform: translateY(0) scale(0.98); }
-            100% { transform: translateY(0) scale(1); }
+            0% { transform: translateY(0) scale(0.95); opacity: 0.8; }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
         }
 
         .section-content {
@@ -689,8 +718,15 @@
             letter-spacing: 3px;
             margin-bottom: 2rem;
             color: #667eea;
-            padding: 1rem 3rem;
+            padding: 1.5rem 3rem;
             display: inline-block;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                inset 3px 3px 8px rgba(0, 0, 0, 0.2),
+                inset -3px -3px 8px rgba(255, 255, 255, 0.1);
         }
 
         [lang="zh"] .hero-title {
@@ -772,6 +808,13 @@
             font-weight: 300;
             padding: 0.75rem 2rem;
             display: inline-block;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                inset 2px 2px 5px rgba(0, 0, 0, 0.2),
+                inset -2px -2px 5px rgba(255, 255, 255, 0.1);
         }
 
         .location {
@@ -780,6 +823,13 @@
             font-weight: 300;
             padding: 0.75rem 2rem;
             display: inline-block;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                inset 2px 2px 5px rgba(0, 0, 0, 0.2),
+                inset -2px -2px 5px rgba(255, 255, 255, 0.1);
         }
 
         .section-title {
@@ -812,7 +862,14 @@
             color: rgba(255, 255, 255, 0.9);
             max-width: 800px;
             margin: 0 auto;
-            padding: 1.5rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                inset 3px 3px 8px rgba(0, 0, 0, 0.2),
+                inset -3px -3px 8px rgba(255, 255, 255, 0.1);
         }
 
         [lang="zh"] .about-text {
@@ -957,11 +1014,6 @@
                 padding: 0.75rem 1.5rem;
             }
 
-            .controls {
-                top: 0.5rem;
-                left: 0.5rem;
-                right: 0.5rem;
-            }
             
             .disclaimer-link {
                 font-size: 0.6rem;
@@ -991,6 +1043,10 @@
             
             .day-night-toggle.day::before {
                 left: 22px;
+            }
+            
+            .nav-hint-top {
+                top: 120px;
             }
 
             .section-content {
@@ -3193,12 +3249,13 @@
             document.querySelectorAll('.section-content').forEach((content, index) => {
                 if (index === sectionIndex) {
                     content.classList.add('active');
-                    // Add a subtle bounce effect on mobile
-                    if ('ontouchstart' in window) {
-                        content.style.animation = 'sectionBounce 0.6s ease-out';
+                    // Add a subtle effect on mobile (but not on iOS to avoid bounce issues)
+                    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+                    if ('ontouchstart' in window && !isIOS) {
+                        content.style.animation = 'sectionBounce 0.4s ease';
                         setTimeout(() => {
                             content.style.animation = '';
-                        }, 600);
+                        }, 400);
                     }
                 } else {
                     content.classList.remove('active');
