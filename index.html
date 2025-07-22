@@ -16,6 +16,7 @@
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
+            cursor: none !important;
         }
 
         body {
@@ -23,12 +24,7 @@
             background: #000;
             color: #fff;
             overflow: hidden;
-            cursor: none;
             transition: background 0.5s ease;
-        }
-
-        * {
-            cursor: none !important;
         }
 
         body.day-mode {
@@ -55,9 +51,12 @@
         }
 
         body.day-mode .hero-title {
-            background: linear-gradient(135deg, #003366 0%, #004080 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #003366;
+            background: rgba(0, 51, 102, 0.05);
+            border-color: rgba(0, 51, 102, 0.2);
+            box-shadow: 
+                inset 3px 3px 8px rgba(0, 51, 102, 0.1),
+                inset -3px -3px 8px rgba(255, 255, 255, 0.5);
         }
 
         body.day-mode .subtitle {
@@ -148,6 +147,31 @@
         }
 
         .custom-cursor.visible {
+            opacity: 1;
+        }
+
+        .wormhole-tooltip {
+            position: fixed;
+            background: rgba(15, 20, 35, 0.95);
+            border: 2px solid #0ff;
+            border-radius: 15px;
+            padding: 10px 20px;
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            font-size: 14px;
+            color: #0ff;
+            box-shadow: 
+                0 8px 32px rgba(0, 255, 255, 0.4),
+                inset 2px 2px 5px rgba(0, 255, 255, 0.1),
+                inset -2px -2px 5px rgba(255, 255, 255, 0.1);
+            pointer-events: none;
+            z-index: 10000;
+            opacity: 0;
+            transform: translate(-50%, -120%);
+            transition: opacity 0.3s ease;
+        }
+
+        .wormhole-tooltip.visible {
             opacity: 1;
         }
 
@@ -570,14 +594,20 @@
         .hero-title {
             font-family: 'Orbitron', monospace;
             font-size: 5rem;
-            font-weight: 900;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 5px;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: glow 2s ease-in-out infinite alternate;
+            letter-spacing: 3px;
+            margin-bottom: 2rem;
+            color: #667eea;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 1rem 3rem;
+            backdrop-filter: blur(10px);
+            display: inline-block;
+            box-shadow: 
+                inset 3px 3px 8px rgba(0, 0, 0, 0.2),
+                inset -3px -3px 8px rgba(255, 255, 255, 0.1);
         }
 
         [lang="zh"] .hero-title {
@@ -585,10 +615,6 @@
             letter-spacing: 2px;
         }
 
-        @keyframes glow {
-            from { filter: brightness(1) drop-shadow(0 0 10px #667eea); }
-            to { filter: brightness(1.1) drop-shadow(0 0 20px #667eea); }
-        }
         
         @keyframes portalOpen {
             from {
@@ -845,6 +871,7 @@
             .hero-title {
                 font-size: clamp(2rem, 8vw, 3rem);
                 letter-spacing: 2px;
+                padding: 1rem 2rem;
             }
             
             .section-title {
@@ -891,6 +918,7 @@
         @media (max-width: 480px) {
             .hero-title {
                 font-size: 2rem;
+                padding: 0.75rem 1.5rem;
             }
 
             .subtitle {
@@ -937,6 +965,9 @@
             <div class="spaceship-thrust"></div>
         </div>
     </div>
+    
+    <!-- Wormhole tooltip -->
+    <div class="wormhole-tooltip" id="wormholeTooltip"></div>
     
     <!-- Navigation hints -->
     <div class="nav-hint nav-hint-top">
@@ -1065,7 +1096,8 @@
                 email: "Correo",
                 click_forward: "↑ Click para ir más profundo en el espacio",
                 click_backward: "↓ Click para regresar",
-                vibe_coded: "vibe-coded with"
+                vibe_coded: "vibe-coded with",
+                go_past: "¡Al pasado!"
             },
             en: {
                 loading: "Taking off in 3... 2... 1...",
@@ -1084,7 +1116,8 @@
                 email: "Email",
                 click_forward: "↑ Click to go deeper into space",
                 click_backward: "↓ Click to go back",
-                vibe_coded: "vibe-coded with"
+                vibe_coded: "vibe-coded with",
+                go_past: "Go Past!"
             },
             it: {
                 loading: "Decollo tra 3... 2... 1...",
@@ -1103,7 +1136,8 @@
                 email: "Email",
                 click_forward: "↑ Clicca per andare più in profondità nello spazio",
                 click_backward: "↓ Clicca per tornare indietro",
-                vibe_coded: "vibe-coded with"
+                vibe_coded: "vibe-coded with",
+                go_past: "Attraversa!"
             },
             de: {
                 loading: "Start in 3... 2... 1...",
@@ -1122,7 +1156,8 @@
                 email: "E-Mail",
                 click_forward: "↑ Klicken Sie, um tiefer in den Weltraum zu gehen",
                 click_backward: "↓ Klicken Sie, um zurückzugehen",
-                vibe_coded: "vibe-coded with"
+                vibe_coded: "vibe-coded with",
+                go_past: "Durchqueren!"
             },
             pt: {
                 loading: "Decolando em 3... 2... 1...",
@@ -1141,7 +1176,8 @@
                 email: "E-mail",
                 click_forward: "↑ Clique para ir mais fundo no espaço",
                 click_backward: "↓ Clique para voltar",
-                vibe_coded: "vibe-coded with"
+                vibe_coded: "vibe-coded with",
+                go_past: "Atravesse!"
             },
             fr: {
                 loading: "Décollage dans 3... 2... 1...",
@@ -1160,7 +1196,8 @@
                 email: "Courriel",
                 click_forward: "↑ Cliquez pour aller plus loin dans l'espace",
                 click_backward: "↓ Cliquez pour revenir",
-                vibe_coded: "vibe-coded with"
+                vibe_coded: "vibe-coded with",
+                go_past: "Traversez!"
             },
             zh: {
                 loading: "3... 2... 1... 发射",
@@ -1179,7 +1216,8 @@
                 email: "电子邮件",
                 click_forward: "↑ 点击深入太空",
                 click_backward: "↓ 点击返回",
-                vibe_coded: "vibe-coded with"
+                vibe_coded: "vibe-coded with",
+                go_past: "穿越！"
             }
         };
 
@@ -1207,10 +1245,8 @@
         }
         
         let currentLang = detectBrowserLanguage();
-        const languageSelector = document.getElementById('languageSelector');
-        
-        // Set the initial value of the language selector
-        languageSelector.value = currentLang;
+        let languageSelector;
+        let isDayMode = false; // Global day/night mode state
         
         function updateLanguage(lang) {
             currentLang = lang;
@@ -1270,18 +1306,26 @@
             }
         }
 
-        // Update language on page load
-        updateLanguage(currentLang);
-        
-        languageSelector.addEventListener('change', (e) => {
-            updateLanguage(e.target.value);
-        });
+        // Initialize DOM elements after content is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            languageSelector = document.getElementById('languageSelector');
+            
+            // Set the initial value of the language selector
+            if (languageSelector) {
+                languageSelector.value = currentLang;
+                
+                languageSelector.addEventListener('change', (e) => {
+                    updateLanguage(e.target.value);
+                });
+            }
+            
+            // Update language on page load
+            updateLanguage(currentLang);
 
-        // Day/Night toggle
-        const dayNightToggle = document.getElementById('dayNightToggle');
-        let isDayMode = false;
+            // Day/Night toggle
+            const dayNightToggle = document.getElementById('dayNightToggle');
 
-        dayNightToggle.addEventListener('click', () => {
+            dayNightToggle.addEventListener('click', () => {
             isDayMode = !isDayMode;
             document.body.classList.toggle('day-mode', isDayMode);
             dayNightToggle.classList.toggle('day', isDayMode);
@@ -1292,9 +1336,16 @@
             }
         });
 
-        // Custom cursor - Spaceship
-        const cursor = document.getElementById('cursor');
-        const spaceship = cursor.querySelector('.spaceship');
+        // Initialize cursor elements
+        cursor = document.getElementById('cursor');
+        spaceship = cursor.querySelector('.spaceship');
+        
+        // Start spaceship animation after cursor is initialized
+        animateSpaceship();
+        });  // End of DOMContentLoaded
+
+        // Variables for cursor
+        let cursor, spaceship;
         let mouseX = 0, mouseY = 0;
         let currentX = 0, currentY = 0;
         let prevX = 0, prevY = 0;
@@ -1367,41 +1418,6 @@
         
         document.addEventListener('mousemove', handleMouseMove);
         
-        // Add wormhole hover detection
-        document.addEventListener('mousemove', (e) => {
-            if (camera && raycaster && wormholes.length > 0) {
-                // Update mouse position for raycaster
-                mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-                mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-                
-                raycaster.setFromCamera(mouse, camera);
-                
-                // Check all wormhole objects
-                const wormholeObjects = [];
-                wormholes.forEach(wormhole => {
-                    wormhole.group.traverse(child => {
-                        if (child.isMesh) {
-                            wormholeObjects.push(child);
-                        }
-                    });
-                });
-                
-                const intersects = raycaster.intersectObjects(wormholeObjects);
-                
-                if (intersects.length > 0) {
-                    // Hovering over a wormhole - make rocket point to depth
-                    spaceship.classList.add('hovering-wormhole');
-                    spaceship.style.transform = 'rotate(0deg)'; // Point to depth
-                    
-                    // Change color
-                    spaceship.style.filter = 'hue-rotate(120deg) brightness(1.5)';
-                } else {
-                    // Not hovering - restore normal behavior
-                    spaceship.classList.remove('hovering-wormhole');
-                    spaceship.style.filter = '';
-                }
-            }
-        });
         
         // Add click navigation
         let isNavigating = false;
@@ -1653,7 +1669,6 @@
             
             requestAnimationFrame(animateSpaceship);
         }
-        animateSpaceship();
 
         // Three.js Scene
         let scene, camera, renderer;
@@ -1752,10 +1767,64 @@
 
             // Start animation
             animate();
+            
+            // Add wormhole hover detection after Three.js is initialized
+            document.addEventListener('mousemove', (e) => {
+                if (camera && raycaster && wormholes.length > 0) {
+                    // Update mouse position for raycaster
+                    mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+                    mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+                    
+                    raycaster.setFromCamera(mouse, camera);
+                    
+                    // Check all wormhole objects
+                    const wormholeObjects = [];
+                    wormholes.forEach(wormhole => {
+                        wormhole.group.traverse(child => {
+                            if (child.isMesh) {
+                                wormholeObjects.push(child);
+                            }
+                        });
+                    });
+                    
+                    const intersects = raycaster.intersectObjects(wormholeObjects);
+                    
+                    // Get tooltip element
+                    const tooltip = document.getElementById('wormholeTooltip');
+                    
+                    if (intersects.length > 0) {
+                        // Hovering over a wormhole - make rocket point to depth
+                        spaceship.classList.add('hovering-wormhole');
+                        spaceship.style.transform = 'rotate(0deg)'; // Point to depth
+                        
+                        // Change color
+                        spaceship.style.filter = 'hue-rotate(120deg) brightness(1.5)';
+                        
+                        // Show tooltip
+                        tooltip.textContent = translations[currentLang].go_past;
+                        tooltip.style.left = e.clientX + 'px';
+                        tooltip.style.top = e.clientY + 'px';
+                        tooltip.classList.add('visible');
+                    } else {
+                        // Not hovering - restore normal behavior
+                        spaceship.classList.remove('hovering-wormhole');
+                        spaceship.style.filter = '';
+                        
+                        // Hide tooltip
+                        tooltip.classList.remove('visible');
+                    }
+                }
+            });
 
             // Start countdown and launch sequence
             const loadingText = document.querySelector('.loading-text');
-            const spaceship = document.querySelector('.spaceship');
+            const localSpaceship = document.querySelector('.spaceship');
+            const localCursor = document.getElementById('cursor');
+            
+            if (!loadingText || !localSpaceship || !localCursor) {
+                console.error('Required elements not found for launch sequence');
+                return;
+            }
             
             // Countdown sequence
             let countdown = 3;
@@ -1782,15 +1851,15 @@
                     }
                     
                     // Start rocket animation
-                    spaceship.classList.add('launching');
-                    cursor.classList.add('visible'); // Show cursor during launch
+                    localSpaceship.classList.add('launching');
+                    localCursor.classList.add('visible'); // Show cursor during launch
                     
                     // Hide loading screen after launch
                     setTimeout(() => {
                         document.getElementById('loading').style.opacity = '0';
                         setTimeout(() => {
                             document.getElementById('loading').style.display = 'none';
-                            spaceship.classList.remove('launching');
+                            localSpaceship.classList.remove('launching');
                         }, 500);
                     }, 1500);
                 }
@@ -2508,7 +2577,7 @@
                         hintCtx.textBaseline = 'middle';
                         hintCtx.shadowColor = '#ff6600';
                         hintCtx.shadowBlur = 25;
-                        hintCtx.fillText('↓ GO PAST! ↓', 256, 128);
+                        hintCtx.fillText(`↓ ${translations[currentLang].go_past} ↓`, 256, 128);
                         
                         const hintTexture = new THREE.Texture(hintCanvas);
                         hintTexture.needsUpdate = true;
