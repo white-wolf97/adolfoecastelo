@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="flags.css">
     <style>
         * {
             margin: 0;
@@ -126,6 +127,11 @@
             color: rgba(0, 51, 102, 0.8);
         }
 
+        body.day-mode .country-flag {
+            opacity: 0.9;
+            filter: brightness(1);
+        }
+
         #canvas-container {
             position: fixed;
             top: 0;
@@ -181,6 +187,38 @@
             position: relative;
         }
 
+        /* Country flag customization */
+        .country-flag {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 44px !important;
+            height: 30px !important;
+            transform: translate(-50%, -50%) translateY(5px) translateX(25px) rotate(90deg) scale(0.6);
+            opacity: 0.9;
+            z-index: 10;
+            transform-origin: center center;
+            animation: waveFlag 2s ease-in-out infinite;
+        }
+        
+        @keyframes waveFlag {
+            0%, 100% { transform: translate(-50%, -50%) translateY(5px) translateX(25px) rotate(90deg) scale(0.6); }
+            25% { transform: translate(-50%, -50%) translateY(5px) translateX(25px) rotate(95deg) scale(0.6); }
+            75% { transform: translate(-50%, -50%) translateY(5px) translateX(25px) rotate(85deg) scale(0.6); }
+        }
+        
+        .flag-pole {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 2px;
+            background: #999;
+            transform: translate(-50%, -50%) translateY(5px) translateX(12px);
+            z-index: 9;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
         .spaceship-body {
             width: 0;
             height: 0;
@@ -192,6 +230,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             filter: drop-shadow(0 0 10px #0ff) drop-shadow(0 0 20px #0ff);
+            z-index: 2;
         }
 
         .spaceship-wing-left {
@@ -1130,6 +1169,8 @@
 
     <div class="custom-cursor" id="cursor">
         <div class="spaceship">
+            <div class="flag-pole"></div>
+            <span class="flag country-flag" id="countryFlag"></span>
             <div class="spaceship-body"></div>
             <div class="spaceship-wing-left"></div>
             <div class="spaceship-wing-right"></div>
@@ -1514,6 +1555,44 @@
             }
         }
 
+        // Function to detect visitor's country and set flag
+        async function detectCountryAndSetFlag() {
+            const countryFlag = document.getElementById('countryFlag');
+            if (!countryFlag) return;
+
+            try {
+                // Try to get country from IP using a free geolocation service
+                const response = await fetch('https://ipapi.co/json/');
+                const data = await response.json();
+                
+                if (data.country_code) {
+                    const countryCode = data.country_code.toLowerCase();
+                    countryFlag.classList.add(`flag-${countryCode}`);
+                } else {
+                    // Default to UN flag or hide if country detection fails
+                    countryFlag.style.display = 'none';
+                }
+            } catch (error) {
+                // If geolocation fails, try alternative method or use default
+                try {
+                    // Alternative: Use cloudflare trace
+                    const response = await fetch('https://cloudflare.com/cdn-cgi/trace');
+                    const text = await response.text();
+                    const match = text.match(/loc=([A-Z]{2})/);
+                    
+                    if (match && match[1]) {
+                        const countryCode = match[1].toLowerCase();
+                        countryFlag.classList.add(`flag-${countryCode}`);
+                    } else {
+                        countryFlag.style.display = 'none';
+                    }
+                } catch (err) {
+                    // Hide flag if all detection methods fail
+                    countryFlag.style.display = 'none';
+                }
+            }
+        }
+
         // Initialize DOM elements after content is loaded
         document.addEventListener('DOMContentLoaded', () => {
             languageSelector = document.getElementById('languageSelector');
@@ -1529,6 +1608,9 @@
             
             // Update language on page load
             updateLanguage(currentLang);
+
+            // Detect visitor's country and set flag
+            detectCountryAndSetFlag();
 
             // Day/Night toggle
             const dayNightToggle = document.getElementById('dayNightToggle');
@@ -2095,7 +2177,7 @@
                 }
             });
 
-            // Check if coming from disclaimer page
+            // Check if we're coming from the disclaimer page
             const isFromDisclaimer = document.referrer.includes('disclaimer.html');
             
             // Start countdown and launch sequence
