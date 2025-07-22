@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disclaimer - Adolfo Castelo</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+            color: #0ff;
+            font-family: 'Courier New', monospace;
+            overflow: hidden;
+        }
+        
+        .container {
+            text-align: center;
+            padding: 2rem;
+            max-width: 600px;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 20px #0ff;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        p {
+            font-size: 1.5rem;
+            margin-bottom: 3rem;
+            opacity: 0.8;
+        }
+        
+        .back-link {
+            display: inline-block;
+            padding: 1rem 2rem;
+            border: 2px solid #0ff;
+            color: #0ff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .back-link:hover {
+            background: #0ff;
+            color: #000;
+            box-shadow: 0 0 30px #0ff;
+            transform: scale(1.05);
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    
+    <div class="container">
+        <h1>🚀 <span id="disclaimerTitle">DISCLAIMER</span> 🚀</h1>
+        <p id="disclaimerText">En el espacio no hay sonido hehe lo sé</p>
+        <a href="index.html" class="back-link" id="backLink">← Volver al espacio</a>
+    </div>
+    
+    <script>
+        // Translations
+        const translations = {
+            es: {
+                title: "ADVERTENCIA",
+                text: "¡En el espacio no hay sonido! :)",
+                back: "← Volver al espacio"
+            },
+            en: {
+                title: "DISCLAIMER",
+                text: "There's no sound in space! :)",
+                back: "← Back to space"
+            },
+            it: {
+                title: "AVVERTENZA",
+                text: "Nello spazio non c'è suono! :)",
+                back: "← Torna allo spazio"
+            },
+            de: {
+                title: "HAFTUNGSAUSSCHLUSS",
+                text: "Im Weltraum gibt es keinen Ton! :)",
+                back: "← Zurück zum Weltraum"
+            },
+            pt: {
+                title: "AVISO",
+                text: "No espaço não há som! :)",
+                back: "← Voltar ao espaço"
+            },
+            fr: {
+                title: "AVERTISSEMENT",
+                text: "Il n'y a pas de son dans l'espace! :)",
+                back: "← Retour à l'espace"
+            },
+            zh: {
+                title: "免责声明",
+                text: "太空中没有声音！:)",
+                back: "← 返回太空"
+            }
+        };
+
+        // Get language from localStorage or default to Spanish
+        const currentLang = localStorage.getItem('selectedLanguage') || 'es';
+        
+        // Apply translations
+        document.getElementById('disclaimerTitle').textContent = translations[currentLang].title;
+        document.getElementById('disclaimerText').textContent = translations[currentLang].text;
+        document.getElementById('backLink').textContent = translations[currentLang].back;
+        
+        // Set page language
+        document.documentElement.lang = currentLang;
+
+        // Create starfield
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            starsContainer.appendChild(star);
+        }
+    </script>
+</body>
+</html>

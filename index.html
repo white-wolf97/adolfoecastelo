@@ -57,47 +57,22 @@
 
         body.day-mode .hero-title {
             color: #003366;
-            background: rgba(0, 51, 102, 0.05);
-            border-color: rgba(0, 51, 102, 0.2);
-            box-shadow: 
-                inset 3px 3px 8px rgba(0, 51, 102, 0.1),
-                inset -3px -3px 8px rgba(255, 255, 255, 0.5);
         }
 
         body.day-mode .subtitle {
             color: #222;
-            background: rgba(0, 51, 102, 0.05);
-            border-color: rgba(0, 51, 102, 0.2);
-            box-shadow: 
-                inset 2px 2px 5px rgba(0, 51, 102, 0.1),
-                inset -2px -2px 5px rgba(255, 255, 255, 0.5);
         }
         
         body.day-mode .location {
             color: #222;
-            background: rgba(0, 51, 102, 0.05);
-            border-color: rgba(0, 51, 102, 0.2);
-            box-shadow: 
-                inset 2px 2px 5px rgba(0, 51, 102, 0.1),
-                inset -2px -2px 5px rgba(255, 255, 255, 0.5);
         }
 
         body.day-mode .section-title {
             color: #003366;
-            background: rgba(0, 51, 102, 0.05);
-            border-color: rgba(0, 51, 102, 0.2);
-            box-shadow: 
-                inset 3px 3px 8px rgba(0, 51, 102, 0.1),
-                inset -3px -3px 8px rgba(255, 255, 255, 0.5);
         }
 
         body.day-mode .about-text {
             color: #333;
-            background: rgba(0, 51, 102, 0.05);
-            border-color: rgba(0, 51, 102, 0.2);
-            box-shadow: 
-                inset 3px 3px 8px rgba(0, 51, 102, 0.1),
-                inset -3px -3px 8px rgba(255, 255, 255, 0.5);
         }
 
         body.day-mode .tech-card {
@@ -369,11 +344,12 @@
 
         .controls {
             position: fixed;
-            top: 2rem;
-            right: 2rem;
+            top: 1rem;
+            left: 1rem;
+            right: 1rem;
             z-index: 100;
             display: flex;
-            gap: 1rem;
+            justify-content: space-around;
             align-items: center;
         }
 
@@ -394,8 +370,8 @@
         }
 
         .day-night-toggle {
-            width: 60px;
-            height: 36px;
+            width: 48px;
+            height: 28px;
             background: rgba(102, 126, 234, 0.1);
             border-radius: 20px;
             position: relative;
@@ -412,16 +388,16 @@
         .day-night-toggle::before {
             content: '🌙';
             position: absolute;
-            left: 8px;
+            left: 6px;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 18px;
+            font-size: 14px;
             transition: all 0.3s ease;
         }
 
         .day-night-toggle.day::before {
             content: '☀️';
-            left: 32px;
+            left: 24px;
         }
 
         body.day-mode .day-night-toggle {
@@ -438,15 +414,15 @@
             background: rgba(102, 126, 234, 0.1);
             border: 2px solid #667eea;
             color: #667eea;
-            padding: 0.5rem 1rem;
+            padding: 0.35rem 0.7rem;
             border-radius: 20px;
             font-family: 'Inter', sans-serif;
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 500;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            font-size: 0.7rem;
         }
 
         .language-selector:hover {
@@ -493,6 +469,90 @@
         }
 
         body.day-mode .language-selector:hover {
+            background: #003366;
+            color: #fff;
+            box-shadow: 0 0 20px #003366;
+        }
+
+        .audio-toggle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(102, 126, 234, 0.1);
+            border: 2px solid #667eea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .audio-toggle:hover {
+            background: rgba(102, 126, 234, 0.3);
+            box-shadow: 0 0 20px #667eea;
+            transform: scale(1.1);
+        }
+
+        .audio-toggle.muted {
+            opacity: 0.5;
+            text-decoration: line-through;
+        }
+        
+        .audio-toggle.pulse {
+            animation: audioPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes audioPulse {
+            0%, 100% { 
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7);
+            }
+            50% { 
+                transform: scale(1.05);
+                box-shadow: 0 0 0 10px rgba(102, 126, 234, 0);
+            }
+        }
+
+        body.day-mode .audio-toggle {
+            background: rgba(0, 51, 102, 0.1);
+            border-color: #003366;
+        }
+
+        body.day-mode .audio-toggle:hover {
+            background: rgba(0, 51, 102, 0.3);
+            box-shadow: 0 0 20px #003366;
+        }
+
+        .disclaimer-link {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.7rem;
+            color: #667eea;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 0.35rem 0.7rem;
+            background: rgba(102, 126, 234, 0.1);
+            border: 2px solid #667eea;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .disclaimer-link:hover {
+            background: #667eea;
+            color: #fff;
+            box-shadow: 0 0 20px #667eea;
+            transform: scale(1.05);
+        }
+
+        body.day-mode .disclaimer-link {
+            background: rgba(0, 51, 102, 0.1);
+            border-color: #003366;
+            color: #003366;
+        }
+
+        body.day-mode .disclaimer-link:hover {
             background: #003366;
             color: #fff;
             box-shadow: 0 0 20px #003366;
@@ -629,15 +689,8 @@
             letter-spacing: 3px;
             margin-bottom: 2rem;
             color: #667eea;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
             padding: 1rem 3rem;
-            backdrop-filter: blur(10px);
             display: inline-block;
-            box-shadow: 
-                inset 3px 3px 8px rgba(0, 0, 0, 0.2),
-                inset -3px -3px 8px rgba(255, 255, 255, 0.1);
         }
 
         [lang="zh"] .hero-title {
@@ -717,30 +770,16 @@
             color: #aaa;
             margin-bottom: 1rem;
             font-weight: 300;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
             padding: 0.75rem 2rem;
-            backdrop-filter: blur(10px);
             display: inline-block;
-            box-shadow: 
-                inset 2px 2px 5px rgba(0, 0, 0, 0.2),
-                inset -2px -2px 5px rgba(255, 255, 255, 0.1);
         }
 
         .location {
             font-size: 1.5rem;
             color: #aaa;
             font-weight: 300;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
             padding: 0.75rem 2rem;
-            backdrop-filter: blur(10px);
             display: inline-block;
-            box-shadow: 
-                inset 2px 2px 5px rgba(0, 0, 0, 0.2),
-                inset -2px -2px 5px rgba(255, 255, 255, 0.1);
         }
 
         .section-title {
@@ -774,13 +813,6 @@
             max-width: 800px;
             margin: 0 auto;
             padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            box-shadow: 
-                inset 3px 3px 8px rgba(0, 0, 0, 0.2),
-                inset -3px -3px 8px rgba(255, 255, 255, 0.1);
         }
 
         [lang="zh"] .about-text {
@@ -926,9 +958,39 @@
             }
 
             .controls {
-                top: 1rem;
-                right: 1rem;
-                flex-direction: column;
+                top: 0.5rem;
+                left: 0.5rem;
+                right: 0.5rem;
+            }
+            
+            .disclaimer-link {
+                font-size: 0.6rem;
+                padding: 0.3rem 0.5rem;
+            }
+            
+            .language-selector {
+                font-size: 0.6rem;
+                padding: 0.3rem 0.5rem;
+            }
+            
+            .audio-toggle {
+                width: 32px;
+                height: 32px;
+                font-size: 0.9rem;
+            }
+            
+            .day-night-toggle {
+                width: 42px;
+                height: 24px;
+            }
+            
+            .day-night-toggle::before {
+                font-size: 12px;
+                left: 4px;
+            }
+            
+            .day-night-toggle.day::before {
+                left: 22px;
             }
 
             .section-content {
@@ -974,6 +1036,29 @@
                 margin-bottom: 1rem;
                 padding: 0.5rem 1.5rem;
             }
+            
+            
+            .disclaimer-link {
+                font-size: 0.55rem;
+                padding: 0.25rem 0.4rem;
+                letter-spacing: 0;
+            }
+            
+            .language-selector {
+                font-size: 0.55rem;
+                padding: 0.25rem 0.4rem;
+            }
+            
+            .audio-toggle {
+                width: 28px;
+                height: 28px;
+                font-size: 0.8rem;
+            }
+            
+            .day-night-toggle {
+                width: 38px;
+                height: 22px;
+            }
 
             .tech-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -1010,6 +1095,12 @@
     <div id="canvas-container"></div>
 
     <div class="controls">
+        <div class="control-item">
+            <a href="disclaimer.html" class="disclaimer-link" data-i18n="disclaimer">Disclaimer</a>
+        </div>
+        <div class="control-item">
+            <div class="audio-toggle" id="audioToggle" title="Toggle music">🎵</div>
+        </div>
         <div class="control-item">
             <div class="day-night-toggle" id="dayNightToggle"></div>
         </div>
@@ -1131,7 +1222,10 @@
                 click_forward: "↑ Click para ir más profundo en el espacio",
                 click_backward: "↓ Click para regresar",
                 vibe_coded: "vibe-coded with",
-                go_past: "¡Al pasado!"
+                go_past: "¡Al pasado!",
+                disclaimer: "Advertencia",
+                time_travel: "Viajando en el tiempo",
+                arrived_past: "¡Has llegado al pasado!"
             },
             en: {
                 loading: "Taking off in 3... 2... 1...",
@@ -1152,7 +1246,10 @@
                 click_forward: "↑ Click to go deeper into space",
                 click_backward: "↓ Click to go back",
                 vibe_coded: "vibe-coded with",
-                go_past: "Go Past!"
+                go_past: "Go Past!",
+                disclaimer: "Disclaimer",
+                time_travel: "Time Traveling",
+                arrived_past: "You have arrived in the past!"
             },
             it: {
                 loading: "Decollo tra 3... 2... 1...",
@@ -1173,7 +1270,10 @@
                 click_forward: "↑ Clicca per andare più in profondità nello spazio",
                 click_backward: "↓ Clicca per tornare indietro",
                 vibe_coded: "vibe-coded with",
-                go_past: "Attraversa!"
+                go_past: "Attraversa!",
+                disclaimer: "Avvertenza",
+                time_travel: "Viaggio nel tempo",
+                arrived_past: "Sei arrivato nel passato!"
             },
             de: {
                 loading: "Start in 3... 2... 1...",
@@ -1194,7 +1294,10 @@
                 click_forward: "↑ Klicken Sie, um tiefer in den Weltraum zu gehen",
                 click_backward: "↓ Klicken Sie, um zurückzugehen",
                 vibe_coded: "vibe-coded with",
-                go_past: "Durchqueren!"
+                go_past: "Durchqueren!",
+                disclaimer: "Haftungsausschluss",
+                time_travel: "Zeitreise",
+                arrived_past: "Du bist in der Vergangenheit angekommen!"
             },
             pt: {
                 loading: "Decolando em 3... 2... 1...",
@@ -1215,7 +1318,10 @@
                 click_forward: "↑ Clique para ir mais fundo no espaço",
                 click_backward: "↓ Clique para voltar",
                 vibe_coded: "vibe-coded with",
-                go_past: "Atravesse!"
+                go_past: "Atravesse!",
+                disclaimer: "Aviso",
+                time_travel: "Viajando no tempo",
+                arrived_past: "Você chegou ao passado!"
             },
             fr: {
                 loading: "Décollage dans 3... 2... 1...",
@@ -1236,7 +1342,10 @@
                 click_forward: "↑ Cliquez pour aller plus loin dans l'espace",
                 click_backward: "↓ Cliquez pour revenir",
                 vibe_coded: "vibe-coded with",
-                go_past: "Traversez!"
+                go_past: "Traversez!",
+                disclaimer: "Avertissement",
+                time_travel: "Voyage dans le temps",
+                arrived_past: "Vous êtes arrivé dans le passé!"
             },
             zh: {
                 loading: "3... 2... 1... 发射",
@@ -1257,7 +1366,10 @@
                 click_forward: "↑ 点击深入太空",
                 click_backward: "↓ 点击返回",
                 vibe_coded: "vibe-coded with",
-                go_past: "穿越！"
+                go_past: "穿越！",
+                disclaimer: "免责声明",
+                time_travel: "时间旅行",
+                arrived_past: "你已经到达过去！"
             }
         };
 
@@ -1323,12 +1435,12 @@
                     context.fillStyle = 'rgba(0, 0, 0, 0)';
                     context.fillRect(0, 0, canvas.width, canvas.height);
                     
-                    context.font = 'italic 42px "Inter", sans-serif';
-                    context.fillStyle = '#ffffff';
+                    context.font = 'italic 44px "Inter", sans-serif';
+                    context.fillStyle = 'rgba(255, 255, 255, 0.95)';
                     context.textAlign = 'center';
                     context.textBaseline = 'middle';
-                    context.shadowColor = '#ff6b6b';
-                    context.shadowBlur = 20;
+                    context.shadowColor = 'rgba(255, 255, 255, 0.6)';
+                    context.shadowBlur = 25;
                     context.fillText(`"${quote}"`, canvas.width / 2, canvas.height / 2 - 25);
                     
                     // Draw author
@@ -1471,7 +1583,7 @@
             // Don't navigate if clicking on UI elements
             if (e.target.closest('.nav-dot') || e.target.closest('.contact-link') || 
                 e.target.closest('#dayNightToggle') || e.target.closest('#languageSelector') ||
-                e.target.closest('#loading')) {
+                e.target.closest('#audioToggle') || e.target.closest('#loading')) {
                 return;
             }
             
@@ -1507,6 +1619,21 @@
                 });
                 
                 if (clickedWormhole) {
+                    // Hide tooltip immediately when clicking wormhole
+                    const tooltipElement = document.getElementById('wormholeTooltip');
+                    if (tooltipElement) {
+                        tooltipElement.classList.remove('visible');
+                        tooltipElement.style.display = 'none';
+                    }
+                    
+                    // Play warp sound effect
+                    const warpSound = document.getElementById('warpSound');
+                    warpSound.currentTime = 0;
+                    warpSound.volume = 0.5;
+                    warpSound.play().catch(() => {
+                        // Ignore if sound can't play
+                    });
+                    
                     // Create wormhole travel effect
                     const wormholeContainer = document.createElement('div');
                     wormholeContainer.style.cssText = `
@@ -1621,7 +1748,7 @@
                         arrivalText.innerHTML = `
                             <div style="font-size: 5rem; font-weight: bold; margin-bottom: 20px;">${clickedWormhole.year}</div>
                             <div style="font-size: 2rem; margin-bottom: 10px;">${clickedWormhole.event}</div>
-                            <div style="font-size: 1rem; opacity: 0.7;">You have arrived in the past!</div>
+                            <div style="font-size: 1rem; opacity: 0.7;">${translations[currentLang].arrived_past}</div>
                         `;
                         
                         arrivalOverlay.appendChild(arrivalText);
@@ -1632,6 +1759,11 @@
                             wormholeContainer.style.animation = 'fadeOut 0.5s ease-in';
                             setTimeout(() => {
                                 document.body.removeChild(wormholeContainer);
+                                // Ensure tooltip stays hidden after travel
+                                const tooltipElement = document.getElementById('wormholeTooltip');
+                                if (tooltipElement) {
+                                    tooltipElement.style.display = '';
+                                }
                             }, 500);
                         }, 1500);
                     }, 1000);
@@ -1794,8 +1926,8 @@
             // Initial lighting
             updateSceneLighting();
 
-            // Mouse wheel handler
-            window.addEventListener('wheel', onMouseWheel);
+            // Mouse wheel handler with passive: false to allow preventDefault
+            window.addEventListener('wheel', onMouseWheel, { passive: false });
 
             // Touch handlers for mobile swipe navigation
             let touchStartY = 0;
@@ -1886,28 +2018,43 @@
                         spaceship.style.filter = 'hue-rotate(120deg) brightness(1.5)';
                         
                         // Show tooltip
-                        tooltip.textContent = translations[currentLang].go_past;
-                        tooltip.style.left = e.clientX + 'px';
-                        tooltip.style.top = e.clientY + 'px';
-                        tooltip.classList.add('visible');
+                        const tooltipElement = document.getElementById('wormholeTooltip');
+                        if (tooltipElement) {
+                            tooltipElement.textContent = translations[currentLang].go_past;
+                            tooltipElement.style.left = e.clientX + 'px';
+                            tooltipElement.style.top = e.clientY + 'px';
+                            tooltipElement.classList.add('visible');
+                        }
                     } else {
                         // Not hovering - restore normal behavior
                         spaceship.classList.remove('hovering-wormhole');
                         spaceship.style.filter = '';
                         
                         // Hide tooltip
-                        tooltip.classList.remove('visible');
+                        const tooltipElement = document.getElementById('wormholeTooltip');
+                        if (tooltipElement) {
+                            tooltipElement.classList.remove('visible');
+                        }
                     }
                 }
             });
 
+            // Check if coming from disclaimer page
+            const isFromDisclaimer = document.referrer.includes('disclaimer.html');
+            
             // Start countdown and launch sequence
             const loadingText = document.querySelector('.loading-text');
             const localSpaceship = document.querySelector('.spaceship');
             const localCursor = document.getElementById('cursor');
             
             if (!loadingText || !localSpaceship || !localCursor) {
-                console.error('Required elements not found for launch sequence');
+                return;
+            }
+            
+            // If coming from disclaimer, skip loading
+            if (isFromDisclaimer) {
+                document.getElementById('loading').style.display = 'none';
+                localCursor.classList.add('visible');
                 return;
             }
             
@@ -2150,6 +2297,14 @@
                     this.exploding = true;
                     this.pulsing = false;
                     this.phase = 0;
+                    
+                    // Play explosion sound effect
+                    const explosionSound = document.getElementById('explosionSound');
+                    explosionSound.currentTime = 0;
+                    explosionSound.volume = 0.4;
+                    explosionSound.play().catch(() => {
+                        // Ignore if sound can't play
+                    });
                 }
                 
                 update(delta) {
@@ -2175,7 +2330,6 @@
                     
                     if (this.nextExplosion <= 0 && !this.exploding) {
                         this.explode();
-                        console.log('Supernova exploding!');
                     }
                     
                     if (this.exploding) {
@@ -2251,7 +2405,6 @@
             // Force one to explode soon for testing
             if (supernovas.length > 0) {
                 supernovas[0].nextExplosion = 2; // Explode in 2 seconds
-                console.log('Supernova will explode in 2 seconds');
             }
         }
 
@@ -2287,13 +2440,14 @@
                 context.fillStyle = 'rgba(0, 0, 0, 0)';
                 context.fillRect(0, 0, canvas.width, canvas.height);
                 
-                // Draw equation text
-                context.font = 'bold 64px "Courier New", monospace';
-                context.fillStyle = '#ffffff';
+                // Draw equation text - bright and clear
+                context.font = '300 56px "Helvetica Neue", "Arial", sans-serif';
+                context.fillStyle = 'rgba(255, 255, 255, 0.95)';
                 context.textAlign = 'center';
                 context.textBaseline = 'middle';
-                context.shadowColor = '#667eea';
-                context.shadowBlur = 10;
+                // Add subtle glow
+                context.shadowColor = 'rgba(255, 255, 255, 0.5)';
+                context.shadowBlur = 15;
                 context.fillText(equation, canvas.width / 2, canvas.height / 2);
                 
                 // Create texture from canvas
@@ -2304,7 +2458,7 @@
                 const material = new THREE.SpriteMaterial({
                     map: texture,
                     transparent: true,
-                    opacity: 0.7,
+                    opacity: 0.85,
                     blending: THREE.AdditiveBlending
                 });
                 
@@ -2799,13 +2953,13 @@
                 // Get current language quote
                 const quote = quoteData[currentLang] || quoteData.en;
                 
-                // Draw quote text with glow effect
-                context.font = 'italic 42px "Inter", sans-serif';
-                context.fillStyle = '#ffffff';
+                // Draw quote text with glow effect - brighter
+                context.font = 'italic 44px "Inter", sans-serif';
+                context.fillStyle = 'rgba(255, 255, 255, 0.95)';
                 context.textAlign = 'center';
                 context.textBaseline = 'middle';
-                context.shadowColor = '#ff6b6b';
-                context.shadowBlur = 20;
+                context.shadowColor = 'rgba(255, 255, 255, 0.6)';
+                context.shadowBlur = 25;
                 context.fillText(`"${quote}"`, canvas.width / 2, canvas.height / 2 - 25);
                 
                 // Draw author
@@ -2818,11 +2972,11 @@
                 const texture = new THREE.Texture(canvas);
                 texture.needsUpdate = true;
                 
-                // Create sprite material
+                // Create sprite material - bright quotes
                 const material = new THREE.SpriteMaterial({
                     map: texture,
                     transparent: true,
-                    opacity: 0.6,
+                    opacity: 0.9,
                     blending: THREE.AdditiveBlending
                 });
                 
@@ -2864,14 +3018,14 @@
                 // Hide black holes in day mode
                 blackHoles.forEach(bh => bh.visible = false);
                 
-                // Keep equations visible
+                // Keep equations visible and bright
                 equations.forEach(eq => {
-                    eq.material.opacity = 0.7;
+                    eq.material.opacity = 0.85;
                 });
                 
-                // Keep quotes visible
+                // Keep quotes visible and bright
                 quotes.forEach(quote => {
-                    quote.material.opacity = 0.6;
+                    quote.material.opacity = 0.9;
                 });
                 
                 // Make grid subtle in day mode
@@ -2914,14 +3068,14 @@
                 // Show black holes
                 blackHoles.forEach(bh => bh.visible = true);
                 
-                // Keep equations visible
+                // Keep equations visible and bright
                 equations.forEach(eq => {
-                    eq.material.opacity = 0.7;
+                    eq.material.opacity = 0.85;
                 });
                 
-                // Keep quotes visible
+                // Keep quotes visible and bright
                 quotes.forEach(quote => {
-                    quote.material.opacity = 0.6;
+                    quote.material.opacity = 0.9;
                 });
                 
                 // Keep grid visible in night mode
@@ -3153,6 +3307,96 @@
         // Initialize Three.js when page loads
         window.addEventListener('load', initThreeJS);
 
+        // Audio control functionality - wrapped in DOMContentLoaded to ensure elements exist
+        document.addEventListener('DOMContentLoaded', () => {
+            const audioToggle = document.getElementById('audioToggle');
+            const backgroundMusic = document.getElementById('backgroundMusic');
+            let isPlaying = false;
+
+            // Set volume lower for background music
+            if (backgroundMusic) {
+                backgroundMusic.volume = 0.3;
+            }
+
+        // Handle autoplay policy - try to play on first user interaction
+        const playAudio = () => {
+            // Wait for audio to be ready before setting currentTime
+            if (backgroundMusic.readyState >= 2) {
+                backgroundMusic.currentTime = 30;
+                backgroundMusic.play().then(() => {
+                    isPlaying = true;
+                    audioToggle.classList.remove('muted');
+                    audioToggle.textContent = '🎵';
+                }).catch((error) => {
+                    // Autoplay was prevented, wait for user interaction
+                    isPlaying = false;
+                    audioToggle.classList.add('muted');
+                    audioToggle.classList.add('pulse'); // Add pulse animation to draw attention
+                    audioToggle.textContent = '🔇';
+                    audioToggle.title = 'Click para activar música';
+                });
+            } else {
+                // If audio not ready, wait and try again
+                backgroundMusic.addEventListener('canplay', () => {
+                    backgroundMusic.currentTime = 30;
+                    backgroundMusic.play().then(() => {
+                        isPlaying = true;
+                        audioToggle.classList.remove('muted');
+                        audioToggle.textContent = '🎵';
+                    }).catch((error) => {
+                        isPlaying = false;
+                        audioToggle.classList.add('muted');
+                        audioToggle.textContent = '🔇';
+                    });
+                }, { once: true });
+            }
+        };
+
+        // Initialize audio button state
+        audioToggle.classList.add('muted');
+        audioToggle.textContent = '🔇';
+
+        // Try to play audio immediately
+        playAudio();
+        
+        // Also try when DOM is ready
+        if (document.readyState !== 'complete') {
+            window.addEventListener('load', playAudio);
+        }
+
+        // Also try on first user interaction
+        document.addEventListener('click', function startAudio() {
+            if (!isPlaying) {
+                playAudio();
+                document.removeEventListener('click', startAudio);
+            }
+        }, { once: true });
+
+        // Toggle audio on button click
+        audioToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            e.preventDefault(); // Prevent any default behavior
+            if (isPlaying) {
+                backgroundMusic.pause();
+                audioToggle.classList.add('muted');
+                audioToggle.textContent = '🔇';
+                isPlaying = false;
+            } else {
+                // Just resume from where it was paused, don't reset to 30 seconds
+                backgroundMusic.play();
+                audioToggle.classList.remove('muted');
+                audioToggle.textContent = '🎵';
+                isPlaying = true;
+            }
+        });
+
+        // When audio ends, loop from 30 seconds instead of beginning
+        backgroundMusic.addEventListener('ended', () => {
+            backgroundMusic.currentTime = 30;
+            backgroundMusic.play();
+        });
+        }); // End of DOMContentLoaded
+
         // Keyboard navigation (reversed to match scroll) with infinite loop
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
@@ -3166,5 +3410,20 @@
             }
         });
     </script>
+
+    <!-- Background Audio -->
+    <audio id="backgroundMusic" autoplay loop preload="auto">
+        <source src="S.T.A.Y.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    
+    <!-- Sound Effects -->
+    <audio id="warpSound" preload="auto">
+        <source src="warp-sfx-6897.mp3" type="audio/mpeg">
+    </audio>
+    
+    <audio id="explosionSound" preload="auto">
+        <source src="explosion-fx-343683.mp3" type="audio/mpeg">
+    </audio>
 </body>
 </html>
