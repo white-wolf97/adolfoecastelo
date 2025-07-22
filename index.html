@@ -628,62 +628,6 @@
             box-shadow: 0 0 20px #003366;
         }
 
-        .navigation {
-            position: fixed;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 100;
-            display: flex;
-            gap: 1rem;
-            background: rgba(0, 0, 0, 0.8);
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .nav-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .nav-dot:hover {
-            background: rgba(255, 255, 255, 0.6);
-            transform: scale(1.5);
-        }
-
-        .nav-dot.active {
-            background: #667eea;
-            box-shadow: 0 0 20px #667eea;
-        }
-
-        .nav-dot::after {
-            content: attr(data-title);
-            position: absolute;
-            bottom: 25px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.9);
-            color: #fff;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            font-size: 0.8rem;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .nav-dot:hover::after {
-            opacity: 1;
-        }
 
         .scroll-indicator {
             position: fixed;
@@ -1048,10 +992,6 @@
                 font-size: 0.85rem;
             }
 
-            .navigation {
-                bottom: 1rem;
-                padding: 0.75rem 1.5rem;
-            }
 
             
             .disclaimer-link {
@@ -1214,13 +1154,6 @@
         </div>
     </div>
 
-    <div class="navigation">
-        <div class="nav-dot active" data-section="0" data-title="Inicio" data-i18n-title="nav_home"></div>
-        <div class="nav-dot" data-section="1" data-title="Sobre mí" data-i18n-title="nav_about"></div>
-        <div class="nav-dot" data-section="2" data-title="Tecnologías" data-i18n-title="nav_tech"></div>
-        <div class="nav-dot" data-section="3" data-title="IA" data-i18n-title="nav_ai"></div>
-        <div class="nav-dot" data-section="4" data-title="Contacto" data-i18n-title="nav_contact"></div>
-    </div>
 
     <div class="scroll-indicator" id="scrollIndicator">
         <span class="desktop-text" data-i18n="scroll">Scroll para navegar</span>
@@ -1302,11 +1235,6 @@
         const translations = {
             es: {
                 loading: "Despegando en 3... 2... 1...",
-                nav_home: "Inicio",
-                nav_about: "Sobre mí",
-                nav_tech: "Tecnologías",
-                nav_ai: "IA",
-                nav_contact: "Contacto",
                 scroll: "Scroll para navegar",
                 swipe: "Desliza para navegar",
                 subtitle: "Desarrollador Full Stack & IA",
@@ -1326,11 +1254,6 @@
             },
             en: {
                 loading: "Taking off in 3... 2... 1...",
-                nav_home: "Home",
-                nav_about: "About",
-                nav_tech: "Technologies",
-                nav_ai: "AI",
-                nav_contact: "Contact",
                 scroll: "Scroll to navigate",
                 swipe: "Swipe to navigate",
                 subtitle: "Full Stack & AI Developer",
@@ -1350,11 +1273,6 @@
             },
             it: {
                 loading: "Decollo tra 3... 2... 1...",
-                nav_home: "Home",
-                nav_about: "Chi sono",
-                nav_tech: "Tecnologie",
-                nav_ai: "IA",
-                nav_contact: "Contatti",
                 scroll: "Scorri per navigare",
                 swipe: "Scorri per navigare",
                 subtitle: "Sviluppatore Full Stack & IA",
@@ -1374,11 +1292,6 @@
             },
             de: {
                 loading: "Start in 3... 2... 1...",
-                nav_home: "Start",
-                nav_about: "Über mich",
-                nav_tech: "Technologien",
-                nav_ai: "KI",
-                nav_contact: "Kontakt",
                 scroll: "Scrollen zum Navigieren",
                 swipe: "Wischen zum Navigieren",
                 subtitle: "Full Stack & KI Entwickler",
@@ -1398,11 +1311,6 @@
             },
             pt: {
                 loading: "Decolando em 3... 2... 1...",
-                nav_home: "Início",
-                nav_about: "Sobre mim",
-                nav_tech: "Tecnologias",
-                nav_ai: "IA",
-                nav_contact: "Contato",
                 scroll: "Role para navegar",
                 swipe: "Deslize para navegar",
                 subtitle: "Desenvolvedor Full Stack & IA",
@@ -1422,11 +1330,6 @@
             },
             fr: {
                 loading: "Décollage dans 3... 2... 1...",
-                nav_home: "Accueil",
-                nav_about: "À propos",
-                nav_tech: "Technologies",
-                nav_ai: "IA",
-                nav_contact: "Contact",
                 scroll: "Faites défiler pour naviguer",
                 swipe: "Glissez pour naviguer",
                 subtitle: "Développeur Full Stack & IA",
@@ -1446,11 +1349,6 @@
             },
             zh: {
                 loading: "3... 2... 1... 发射",
-                nav_home: "首页",
-                nav_about: "关于我",
-                nav_tech: "技术栈",
-                nav_ai: "人工智能",
-                nav_contact: "联系方式",
                 scroll: "滚动导航",
                 swipe: "滑动导航",
                 subtitle: "全栈及人工智能开发者",
@@ -1719,7 +1617,7 @@
                 e.preventDefault();
             }
             // Don't navigate if clicking on UI elements
-            if (e.target.closest('.nav-dot') || e.target.closest('.contact-link') || 
+            if (e.target.closest('.contact-link') || 
                 e.target.closest('#dayNightToggle') || e.target.closest('#languageSelector') ||
                 e.target.closest('#audioToggle') || e.target.closest('#loading')) {
                 return;
@@ -2112,13 +2010,6 @@
                 }
             }
 
-            // Navigation click handlers
-            document.querySelectorAll('.nav-dot').forEach(dot => {
-                dot.addEventListener('click', () => {
-                    const sectionIndex = parseInt(dot.dataset.section);
-                    navigateToSection(sectionIndex);
-                });
-            });
 
             // Start animation
             animate();
@@ -3322,10 +3213,6 @@
             // Go deeper into space (negative Z) as sections progress
             targetZ = -sectionIndex * 500;
             
-            // Update navigation dots
-            document.querySelectorAll('.nav-dot').forEach((dot, index) => {
-                dot.classList.toggle('active', index === sectionIndex);
-            });
             
             // Update section content with animation
             document.querySelectorAll('.section-content').forEach((content, index) => {
