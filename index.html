@@ -1,94 +1,3005 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Adolfo Castelo | Desarrollador Full Stack & IA</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'brand-dark': '#1b1b1b',
-                        'brand-light': '#f4f4f4',
-                    }
-                }
-            }
-        }
-    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adolfo Castelo - Full Stack & AI Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
+            background: #000;
+            color: #fff;
+            overflow: hidden;
+            cursor: none;
+            transition: background 0.5s ease;
+        }
+
+        * {
+            cursor: none !important;
+        }
+
+        body.day-mode {
+            background: #001a33;
+        }
+
+        body.day-mode .spaceship-body {
+            border-bottom-color: #003366;
+            filter: drop-shadow(0 0 10px #003366) drop-shadow(0 0 20px #003366);
+        }
+
+        body.day-mode .spaceship-wing-left,
+        body.day-mode .spaceship-wing-right {
+            border-bottom-color: #003366;
+        }
+
+        body.day-mode .spaceship-thrust {
+            background: linear-gradient(to bottom, #ff6600, #ff0000);
+            filter: drop-shadow(0 0 5px #ff6600);
+        }
+
+        body.day-mode .section-content {
+            color: #111;
+        }
+
+        body.day-mode .hero-title {
+            background: linear-gradient(135deg, #003366 0%, #004080 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        body.day-mode .subtitle {
+            color: #222;
+            background: rgba(0, 51, 102, 0.05);
+            border-color: rgba(0, 51, 102, 0.2);
+            box-shadow: 
+                inset 2px 2px 5px rgba(0, 51, 102, 0.1),
+                inset -2px -2px 5px rgba(255, 255, 255, 0.5);
+        }
+        
+        body.day-mode .location {
+            color: #222;
+            background: rgba(0, 51, 102, 0.05);
+            border-color: rgba(0, 51, 102, 0.2);
+            box-shadow: 
+                inset 2px 2px 5px rgba(0, 51, 102, 0.1),
+                inset -2px -2px 5px rgba(255, 255, 255, 0.5);
+        }
+
+        body.day-mode .section-title {
+            color: #003366;
+            background: rgba(0, 51, 102, 0.05);
+            border-color: rgba(0, 51, 102, 0.2);
+            box-shadow: 
+                inset 3px 3px 8px rgba(0, 51, 102, 0.1),
+                inset -3px -3px 8px rgba(255, 255, 255, 0.5);
+        }
+
+        body.day-mode .about-text {
+            color: #333;
+            background: rgba(0, 51, 102, 0.05);
+            border-color: rgba(0, 51, 102, 0.2);
+            box-shadow: 
+                inset 3px 3px 8px rgba(0, 51, 102, 0.1),
+                inset -3px -3px 8px rgba(255, 255, 255, 0.5);
+        }
+
+        body.day-mode .tech-card {
+            background: rgba(0, 51, 102, 0.1);
+            border-color: rgba(0, 51, 102, 0.3);
+            color: #111;
+        }
+
+        body.day-mode .tech-card:hover {
+            background: rgba(0, 51, 102, 0.2);
+            border-color: #003366;
+            box-shadow: 0 10px 30px rgba(0, 51, 102, 0.3);
+        }
+
+        body.day-mode .contact-link {
+            background: rgba(0, 51, 102, 0.1);
+            border-color: rgba(0, 51, 102, 0.3);
+            color: #111;
+            box-shadow: 
+                inset 2px 2px 5px rgba(0, 51, 102, 0.1),
+                inset -2px -2px 5px rgba(255, 255, 255, 0.5);
+        }
+
+        body.day-mode .contact-link:hover {
+            background: rgba(0, 51, 102, 0.2);
+            border-color: #003366;
+            box-shadow: 0 10px 30px rgba(0, 51, 102, 0.3);
+        }
+
+        body.day-mode .scroll-indicator {
+            color: rgba(0, 51, 102, 0.8);
+        }
+
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .custom-cursor {
+            width: 40px;
+            height: 40px;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .custom-cursor.visible {
+            opacity: 1;
+        }
+
+        .spaceship {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .spaceship-body {
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 30px solid #0ff;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            filter: drop-shadow(0 0 10px #0ff) drop-shadow(0 0 20px #0ff);
+        }
+
+        .spaceship-wing-left {
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 15px solid #0ff;
+            position: absolute;
+            top: 65%;
+            left: 30%;
+            transform: translateX(-50%) rotate(-30deg);
+        }
+
+        .spaceship-wing-right {
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 15px solid #0ff;
+            position: absolute;
+            top: 65%;
+            left: 70%;
+            transform: translateX(-50%) rotate(30deg);
+        }
+
+        .spaceship-thrust {
+            width: 6px;
+            height: 15px;
+            background: linear-gradient(to bottom, #ff0, #f00);
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: thrust 0.2s ease-in-out infinite alternate;
+            filter: drop-shadow(0 0 5px #ff0);
+        }
+
+        @keyframes thrust {
+            0% { 
+                height: 15px; 
+                opacity: 0.8;
+            }
+            100% { 
+                height: 20px; 
+                opacity: 1;
+            }
+        }
+
+        @keyframes takeoff {
+            0% {
+                transform: translate(-50%, 100vh) rotate(0deg) scale(1);
+            }
+            50% {
+                transform: translate(-50%, 50vh) rotate(0deg) scale(1.2);
+            }
+            100% {
+                transform: translate(-50%, -50%) rotate(0deg) scale(1);
+            }
+        }
+
+        .spaceship.launching {
+            animation: takeoff 2s ease-out forwards;
+        }
+
+        .spaceship.launching .spaceship-thrust {
+            height: 40px !important;
+            animation: thrust 0.1s ease-in-out infinite alternate;
+            background: linear-gradient(to bottom, #fff, #ff0, #f00);
+            box-shadow: 0 5px 20px #ff0, 0 10px 40px #f00;
+        }
+        
+        .spaceship.navigating {
+            transition: transform 0.5s ease-out !important;
+        }
+        
+        .spaceship.navigating .spaceship-thrust {
+            height: 30px !important;
+            background: linear-gradient(to bottom, #aaf, #66f, #00f);
+            box-shadow: 0 5px 15px #66f, 0 10px 30px #00f;
+            animation: navigate-thrust 0.1s ease-in-out infinite alternate;
+        }
+        
+        @keyframes navigate-thrust {
+            0% { height: 30px; }
+            100% { height: 35px; }
+        }
+        
+        .nav-hint {
+            position: fixed;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 0.8rem;
+            font-family: 'Orbitron', monospace;
+            pointer-events: none;
+            z-index: 100;
+            transition: opacity 0.3s ease;
+        }
+        
+        .nav-hint-top {
+            top: 30px;
+        }
+        
+        .nav-hint-bottom {
+            bottom: 30px;
+        }
+        
+        body.day-mode .nav-hint {
+            color: rgba(0, 0, 0, 0.3);
+        }
+
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .loader {
+            width: 100px;
+            height: 100px;
+            position: relative;
+        }
+
+        .loader::before,
+        .loader::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            inset: 0;
+            border: 3px solid transparent;
+            border-top-color: #667eea;
+            border-bottom-color: #764ba2;
+            animation: spin 2s linear infinite;
+        }
+
+        .loader::after {
+            animation: spin 1.5s linear reverse infinite;
+            border-top-color: #764ba2;
+            border-bottom-color: #667eea;
+            inset: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            margin-top: 2rem;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.2rem;
+            color: #667eea;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .controls {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 100;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .control-item {
+            backdrop-filter: blur(10px);
+            animation: slideInFromTop 0.5s ease-out;
+        }
+
+        @keyframes slideInFromTop {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .day-night-toggle {
+            width: 60px;
+            height: 36px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 20px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid #667eea;
+        }
+
+        .day-night-toggle:hover {
+            background: rgba(102, 126, 234, 0.2);
+            box-shadow: 0 0 20px #667eea;
+        }
+
+        .day-night-toggle::before {
+            content: '🌙';
+            position: absolute;
+            left: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .day-night-toggle.day::before {
+            content: '☀️';
+            left: 32px;
+        }
+
+        body.day-mode .day-night-toggle {
+            background: rgba(0, 51, 102, 0.1);
+            border-color: #003366;
+        }
+
+        body.day-mode .day-night-toggle:hover {
+            background: rgba(0, 51, 102, 0.2);
+            box-shadow: 0 0 20px #003366;
+        }
+
+        .language-selector {
+            background: rgba(102, 126, 234, 0.1);
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+        }
+
+        .language-selector:hover {
+            background: #667eea;
+            color: #fff;
+            box-shadow: 0 0 20px #667eea;
+        }
+
+        .language-selector:focus {
+            outline: none;
+            box-shadow: 0 0 30px #667eea;
+        }
+
+        .language-selector option {
+            background: rgba(26, 26, 46, 0.95);
+            color: #fff;
+            padding: 0.8rem;
+            border: none;
+            font-size: 0.9rem;
+        }
+
+        .language-selector::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .language-selector::-webkit-scrollbar-track {
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 4px;
+        }
+
+        .language-selector::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 4px;
+        }
+
+        .language-selector::-webkit-scrollbar-thumb:hover {
+            background: #764ba2;
+        }
+
+        body.day-mode .language-selector {
+            background: rgba(0, 51, 102, 0.1);
+            border-color: #003366;
+            color: #003366;
+        }
+
+        body.day-mode .language-selector:hover {
+            background: #003366;
+            color: #fff;
+            box-shadow: 0 0 20px #003366;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            display: flex;
+            gap: 1rem;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-dot:hover {
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(1.5);
+        }
+
+        .nav-dot.active {
+            background: #667eea;
+            box-shadow: 0 0 20px #667eea;
+        }
+
+        .nav-dot::after {
+            content: attr(data-title);
+            position: absolute;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-dot:hover::after {
+            opacity: 1;
+        }
+
+        .scroll-indicator {
+            position: fixed;
+            bottom: 6rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            font-family: 'Orbitron', monospace;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        .section-content {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 50;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 1s ease;
+            pointer-events: none;
+            max-width: 90vw;
+            max-height: 90vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 1rem;
+        }
+
+        .section-content.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .hero-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        [lang="zh"] .hero-title {
+            font-family: 'Noto Sans SC', sans-serif;
+            letter-spacing: 2px;
+        }
+
+        @keyframes glow {
+            from { filter: brightness(1) drop-shadow(0 0 10px #667eea); }
+            to { filter: brightness(1.1) drop-shadow(0 0 20px #667eea); }
+        }
+        
+        @keyframes portalOpen {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes portalClose {
+            from {
+                transform: scale(1);
+                opacity: 1;
+            }
+            to {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes fadeInScale {
+            from {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes wormholeSpin {
+            from { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+            to { transform: translate(-50%, -50%) rotate(360deg) scale(1.5); }
+        }
+        
+        @keyframes speedLinesMove {
+            from { transform: translateX(0); }
+            to { transform: translateX(-4px); }
+        }
+        
+        @keyframes vortexPulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+        
+        @keyframes travelTextPulse {
+            0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.9); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: #aaa;
+            margin-bottom: 1rem;
+            font-weight: 300;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 0.75rem 2rem;
+            backdrop-filter: blur(10px);
+            display: inline-block;
+            box-shadow: 
+                inset 2px 2px 5px rgba(0, 0, 0, 0.2),
+                inset -2px -2px 5px rgba(255, 255, 255, 0.1);
+        }
+
+        .location {
+            font-size: 1.5rem;
+            color: #aaa;
+            font-weight: 300;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 0.75rem 2rem;
+            backdrop-filter: blur(10px);
+            display: inline-block;
+            box-shadow: 
+                inset 2px 2px 5px rgba(0, 0, 0, 0.2),
+                inset -2px -2px 5px rgba(255, 255, 255, 0.1);
+        }
+
+        .section-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 3rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 2rem;
+            color: #667eea;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 1rem 3rem;
+            backdrop-filter: blur(10px);
+            display: inline-block;
+            box-shadow: 
+                inset 3px 3px 8px rgba(0, 0, 0, 0.2),
+                inset -3px -3px 8px rgba(255, 255, 255, 0.1);
+        }
+
+        [lang="zh"] .section-title {
+            font-family: 'Noto Sans SC', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .about-text {
+            font-size: clamp(0.85rem, 2vw, 1.1rem);
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                inset 3px 3px 8px rgba(0, 0, 0, 0.2),
+                inset -3px -3px 8px rgba(255, 255, 255, 0.1);
+        }
+
+        [lang="zh"] .about-text {
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+
+        @media (min-width: 768px) {
+            .about-text {
+                padding: 2rem 3rem;
+            }
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .tech-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        body.day-mode .tech-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .tech-card:hover {
+            background: rgba(102, 126, 234, 0.1);
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .contact-links {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .contact-link {
+            display: inline-block;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #fff;
+            text-decoration: none;
+            font-family: 'Orbitron', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                inset 2px 2px 5px rgba(0, 0, 0, 0.2),
+                inset -2px -2px 5px rgba(255, 255, 255, 0.1);
+        }
+
+        .contact-link:hover {
+            background: rgba(102, 126, 234, 0.1);
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+        
+        .claude-credit {
+            margin-top: 3rem;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .claude-link {
+            color: #ff6b6b;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .claude-link:hover {
+            color: #ff8787;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+        }
+        
+        .claude-link::after {
+            content: "✨";
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .claude-link:hover::after {
+            opacity: 1;
+        }
+        
+        body.day-mode .claude-credit {
+            color: rgba(0, 0, 0, 0.5);
+        }
+        
+        body.day-mode .claude-link {
+            color: #e63946;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: clamp(2rem, 8vw, 3rem);
+                letter-spacing: 2px;
+            }
+            
+            .section-title {
+                font-size: clamp(1.5rem, 5vw, 2rem);
+                padding: 0.75rem 2rem;
+            }
+
+            .tech-grid {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+                gap: 0.5rem;
+                padding: 0 1rem;
+            }
+
+            .tech-card {
+                padding: 1rem;
+                font-size: 0.85rem;
+            }
+
+            .navigation {
+                bottom: 1rem;
+                padding: 0.75rem 1.5rem;
+            }
+
+            .controls {
+                top: 1rem;
+                right: 1rem;
+                flex-direction: column;
+            }
+
+            .section-content {
+                padding: 0 1rem;
+            }
+
+            .contact-links {
+                gap: 1rem;
+            }
+
+            .contact-link {
+                padding: 1rem;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+                padding: 0.5rem 1.5rem;
+            }
+
+            .location {
+                font-size: 0.9rem;
+                padding: 0.4rem 1rem;
+            }
+            
+            .about-text {
+                font-size: 0.8rem;
+                line-height: 1.5;
+                padding: 1rem;
+                max-height: 60vh;
+                overflow-y: auto;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+                margin-bottom: 1rem;
+                padding: 0.5rem 1.5rem;
+            }
+
+            .tech-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
-<body class="bg-brand-light text-gray-800 antialiased">
-    <div class="container mx-auto max-w-4xl px-4 py-8">
-        <header class="text-center mb-12 bg-white shadow-lg rounded-lg p-8">
-            <div class="mb-4">
-                <h1 class="text-4xl font-bold text-brand-dark mb-2">Adolfo Castelo</h1>
-                <p class="text-xl text-gray-600">Desarrollador Full Stack & IA</p>
-            </div>
-            <div class="flex flex-col sm:flex-row justify-center items-center space-y-2 sm:space-y-0 sm:space-x-4">
-                <a href="mailto:adolfo.castelo.ac@gmail.com" class="flex items-center text-blue-600 hover:text-blue-800 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
-                    adolfo(dot)castelo(dot)ac@gmail.com
-                </a>
-                <a href="https://www.linkedin.com/in/adolfo-e-castelo-92772714b/" target="_blank" class="flex items-center text-blue-600 hover:text-blue-800 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block mr-2" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.784 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                    </svg>
-                    LinkedIn
-                </a>
-                <a href="https://github.com/white-wolf97" target="_blank" class="flex items-center text-blue-600 hover:text-blue-800 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block mr-2" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                    </svg>
-                    GitHub
-                </a>
-            </div>
-        </header>
-
-        <main class="space-y-8">
-            <section class="bg-white shadow-md rounded-lg p-6">
-                <h2 class="text-2xl font-semibold text-brand-dark border-b pb-2 mb-4">Sobre mí</h2>
-                <p class="text-gray-700 leading-relaxed">
-                    Soy un desarrollador senior de Montevideo apasionado por la inteligencia artificial y el desarrollo de soluciones tecnológicas de vanguardia. Especializado en crear aplicaciones inteligentes que aprovechan el poder del aprendizaje automático y el procesamiento del lenguaje natural. Me fascina explorar los límites de la IA, desde el desarrollo de modelos de lenguaje hasta la implementación de sistemas de recomendación y análisis predictivo. Fuera del teclado, soy hincha de Nacional y del Liverpool inglés, y voy regularmente al gimnasio para mantenerme activo.
-                </p>
-            </section>
-
-            <section class="bg-white shadow-md rounded-lg p-6">
-                <h2 class="text-2xl font-semibold text-brand-dark border-b pb-2 mb-4">Tecnologías</h2>
-                <div class="flex flex-wrap gap-2">
-                    <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">React</span>
-                    <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Node.js</span>
-                    <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">.NET</span>
-                    <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm">TypeScript</span>
-                    <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">SQL</span>
-                </div>
-            </section>
-
-            <section class="bg-white shadow-md rounded-lg p-6">
-                <h2 class="text-2xl font-semibold text-brand-dark border-b pb-2 mb-4">Tecnologías de IA</h2>
-                <div class="flex flex-wrap gap-2">
-                    <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Python</span>
-                    <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">LangChain</span>
-                    <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">Embeddings</span>
-                    <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm">Pinecone</span>
-                    <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">MCP</span>
-                    <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm">NLP</span>
-                    <span class="bg-pink-100 text-pink-800 px-3 py-1 rounded-full text-sm">Machine Learning</span>
-                </div>
-            </section>
-        </main>
-
-        <footer class="text-center text-gray-500 mt-8">
-            © 2025 Adolfo Castelo - Montevideo, Uruguay
-        </footer>
+<body>
+    <div class="loading-screen" id="loading">
+        <div class="loader"></div>
+        <div class="loading-text" data-i18n="loading">Despegando en 3... 2... 1...</div>
     </div>
+
+    <div class="custom-cursor" id="cursor">
+        <div class="spaceship">
+            <div class="spaceship-body"></div>
+            <div class="spaceship-wing-left"></div>
+            <div class="spaceship-wing-right"></div>
+            <div class="spaceship-thrust"></div>
+        </div>
+    </div>
+    
+    <!-- Navigation hints -->
+    <div class="nav-hint nav-hint-top">
+        <span data-i18n="click_forward">↑ Click to go deeper into space</span>
+    </div>
+    <div class="nav-hint nav-hint-bottom">
+        <span data-i18n="click_backward">↓ Click to go back</span>
+    </div>
+
+    <div id="canvas-container"></div>
+
+    <div class="controls">
+        <div class="control-item">
+            <div class="day-night-toggle" id="dayNightToggle"></div>
+        </div>
+        <div class="control-item">
+            <select class="language-selector" id="languageSelector">
+            <option value="es">Español</option>
+            <option value="en">English</option>
+            <option value="it">Italiano</option>
+            <option value="de">Deutsch</option>
+            <option value="pt">Português</option>
+            <option value="fr">Français</option>
+            <option value="zh">中文</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <div class="nav-dot active" data-section="0" data-title="Inicio" data-i18n-title="nav_home"></div>
+        <div class="nav-dot" data-section="1" data-title="Sobre mí" data-i18n-title="nav_about"></div>
+        <div class="nav-dot" data-section="2" data-title="Tecnologías" data-i18n-title="nav_tech"></div>
+        <div class="nav-dot" data-section="3" data-title="IA" data-i18n-title="nav_ai"></div>
+        <div class="nav-dot" data-section="4" data-title="Contacto" data-i18n-title="nav_contact"></div>
+    </div>
+
+    <div class="scroll-indicator" id="scrollIndicator" data-i18n="scroll">Scroll para navegar</div>
+
+    <!-- Section Contents -->
+    <div class="section-content active" id="section-0">
+        <h1 class="hero-title">Adolfo E. Castelo</h1>
+        <p class="subtitle" data-i18n="subtitle">Full Stack & AI Developer</p>
+        <p class="location">Montevideo, Uruguay</p>
+    </div>
+
+    <div class="section-content" id="section-1">
+        <h2 class="section-title" data-i18n="about_title">Sobre mí</h2>
+        <p class="about-text" data-i18n="about_text">
+            Soy un desarrollador senior de Montevideo apasionado por la inteligencia artificial y el desarrollo de soluciones tecnológicas de vanguardia. 
+            Especializado en crear aplicaciones inteligentes que aprovechan el poder del aprendizaje automático y el procesamiento del lenguaje natural. 
+            Me fascina explorar los límites de la IA, desde el desarrollo de modelos de lenguaje hasta la implementación de sistemas de recomendación y análisis predictivo. 
+            Fuera del teclado, soy hincha de Nacional y del Liverpool inglés, y voy regularmente al gimnasio para mantenerme activo.
+        </p>
+    </div>
+
+    <div class="section-content" id="section-2">
+        <h2 class="section-title" data-i18n="tech_title">Tecnologías</h2>
+        <div class="tech-grid">
+            <div class="tech-card">React</div>
+            <div class="tech-card">Node.js</div>
+            <div class="tech-card">.NET</div>
+            <div class="tech-card">TypeScript</div>
+            <div class="tech-card">SQL</div>
+            <div class="tech-card">MongoDB</div>
+            <div class="tech-card">Docker</div>
+            <div class="tech-card">AWS</div>
+            <div class="tech-card">GraphQL</div>
+            <div class="tech-card">Azure</div>
+        </div>
+    </div>
+
+    <div class="section-content" id="section-3">
+        <h2 class="section-title" data-i18n="ai_title">Inteligencia Artificial</h2>
+        <div class="tech-grid">
+            <div class="tech-card">Python</div>
+            <div class="tech-card">LangChain</div>
+            <div class="tech-card">Embeddings</div>
+            <div class="tech-card">Pinecone</div>
+            <div class="tech-card">MCP</div>
+            <div class="tech-card">NLP</div>
+            <div class="tech-card">Machine Learning</div>
+            <div class="tech-card">OpenAI</div>
+            <div class="tech-card">Claude</div>
+            <div class="tech-card">RAG</div>
+        </div>
+    </div>
+
+    <div class="section-content" id="section-4">
+        <h2 class="section-title" data-i18n="contact_title">Contacto</h2>
+        <div class="contact-links">
+            <a href="mailto:adolfo.castelo.ac@gmail.com" class="contact-link" data-i18n="email">
+                Email
+            </a>
+            <a href="https://www.linkedin.com/in/adolfo-e-castelo-92772714b/" target="_blank" class="contact-link">
+                LinkedIn
+            </a>
+            <a href="https://github.com/white-wolf97" target="_blank" class="contact-link">
+                GitHub
+            </a>
+        </div>
+        <div class="claude-credit">
+            <span data-i18n="vibe_coded">vibe-coded with</span> 
+            <span style="color: #ff6b6b; animation: heartbeat 1.5s ease-in-out infinite;">❤️</span>
+            <a href="https://claude.ai" target="_blank" class="claude-link">Claude</a>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Translations
+        const translations = {
+            es: {
+                loading: "Despegando en 3... 2... 1...",
+                nav_home: "Inicio",
+                nav_about: "Sobre mí",
+                nav_tech: "Tecnologías",
+                nav_ai: "IA",
+                nav_contact: "Contacto",
+                scroll: "Scroll para navegar",
+                subtitle: "Desarrollador Full Stack & IA",
+                about_title: "Sobre mí",
+                about_text: "Soy un desarrollador senior de Montevideo apasionado por la inteligencia artificial y el desarrollo de soluciones tecnológicas de vanguardia. Especializado en crear aplicaciones inteligentes que aprovechan el poder del aprendizaje automático y el procesamiento del lenguaje natural. Me fascina explorar los límites de la IA, desde el desarrollo de modelos de lenguaje hasta la implementación de sistemas de recomendación y análisis predictivo. Fuera del teclado, soy hincha de Nacional y del Liverpool inglés, y voy regularmente al gimnasio para mantenerme activo.",
+                tech_title: "Tecnologías",
+                ai_title: "Inteligencia Artificial",
+                contact_title: "Contacto",
+                email: "Correo",
+                click_forward: "↑ Click para ir más profundo en el espacio",
+                click_backward: "↓ Click para regresar",
+                vibe_coded: "vibe-coded with"
+            },
+            en: {
+                loading: "Taking off in 3... 2... 1...",
+                nav_home: "Home",
+                nav_about: "About",
+                nav_tech: "Technologies",
+                nav_ai: "AI",
+                nav_contact: "Contact",
+                scroll: "Scroll to navigate",
+                subtitle: "Full Stack & AI Developer",
+                about_title: "About me",
+                about_text: "I'm a senior developer from Montevideo passionate about artificial intelligence and cutting-edge technology solutions. Specialized in creating intelligent applications that leverage the power of machine learning and natural language processing. I'm fascinated by exploring the limits of AI, from developing language models to implementing recommendation systems and predictive analytics. Outside of coding, I support Nacional and Liverpool FC, and regularly hit the gym to stay active.",
+                tech_title: "Technologies",
+                ai_title: "Artificial Intelligence",
+                contact_title: "Contact",
+                email: "Email",
+                click_forward: "↑ Click to go deeper into space",
+                click_backward: "↓ Click to go back",
+                vibe_coded: "vibe-coded with"
+            },
+            it: {
+                loading: "Decollo tra 3... 2... 1...",
+                nav_home: "Home",
+                nav_about: "Chi sono",
+                nav_tech: "Tecnologie",
+                nav_ai: "IA",
+                nav_contact: "Contatti",
+                scroll: "Scorri per navigare",
+                subtitle: "Sviluppatore Full Stack & IA",
+                about_title: "Chi sono",
+                about_text: "Sono uno sviluppatore senior di Montevideo appassionato di intelligenza artificiale e sviluppo di soluzioni tecnologiche all'avanguardia. Specializzato nella creazione di applicazioni intelligenti che sfruttano la potenza del machine learning e dell'elaborazione del linguaggio naturale. Mi affascina esplorare i limiti dell'IA, dallo sviluppo di modelli linguistici all'implementazione di sistemi di raccomandazione e analisi predittiva. Fuori dal codice, tifo Nacional e Liverpool FC, e vado regolarmente in palestra per mantenermi attivo.",
+                tech_title: "Tecnologie",
+                ai_title: "Intelligenza Artificiale",
+                contact_title: "Contatti",
+                email: "Email",
+                click_forward: "↑ Clicca per andare più in profondità nello spazio",
+                click_backward: "↓ Clicca per tornare indietro",
+                vibe_coded: "vibe-coded with"
+            },
+            de: {
+                loading: "Start in 3... 2... 1...",
+                nav_home: "Start",
+                nav_about: "Über mich",
+                nav_tech: "Technologien",
+                nav_ai: "KI",
+                nav_contact: "Kontakt",
+                scroll: "Scrollen zum Navigieren",
+                subtitle: "Full Stack & KI Entwickler",
+                about_title: "Über mich",
+                about_text: "Ich bin ein Senior-Entwickler aus Montevideo mit Leidenschaft für künstliche Intelligenz und modernste Technologielösungen. Spezialisiert auf die Erstellung intelligenter Anwendungen, die die Kraft des maschinellen Lernens und der natürlichen Sprachverarbeitung nutzen. Es fasziniert mich, die Grenzen der KI zu erkunden, von der Entwicklung von Sprachmodellen bis zur Implementierung von Empfehlungssystemen und prädiktiver Analytik. Außerhalb des Programmierens bin ich Fan von Nacional und Liverpool FC und gehe regelmäßig ins Fitnessstudio.",
+                tech_title: "Technologien",
+                ai_title: "Künstliche Intelligenz",
+                contact_title: "Kontakt",
+                email: "E-Mail",
+                click_forward: "↑ Klicken Sie, um tiefer in den Weltraum zu gehen",
+                click_backward: "↓ Klicken Sie, um zurückzugehen",
+                vibe_coded: "vibe-coded with"
+            },
+            pt: {
+                loading: "Decolando em 3... 2... 1...",
+                nav_home: "Início",
+                nav_about: "Sobre mim",
+                nav_tech: "Tecnologias",
+                nav_ai: "IA",
+                nav_contact: "Contato",
+                scroll: "Role para navegar",
+                subtitle: "Desenvolvedor Full Stack & IA",
+                about_title: "Sobre mim",
+                about_text: "Sou um desenvolvedor sênior de Montevidéu apaixonado por inteligência artificial e desenvolvimento de soluções tecnológicas de ponta. Especializado em criar aplicações inteligentes que aproveitam o poder do aprendizado de máquina e processamento de linguagem natural. Me fascina explorar os limites da IA, desde o desenvolvimento de modelos de linguagem até a implementação de sistemas de recomendação e análise preditiva. Fora do código, torço para o Nacional e Liverpool FC, e vou regularmente à academia para me manter ativo.",
+                tech_title: "Tecnologias",
+                ai_title: "Inteligência Artificial",
+                contact_title: "Contato",
+                email: "E-mail",
+                click_forward: "↑ Clique para ir mais fundo no espaço",
+                click_backward: "↓ Clique para voltar",
+                vibe_coded: "vibe-coded with"
+            },
+            fr: {
+                loading: "Décollage dans 3... 2... 1...",
+                nav_home: "Accueil",
+                nav_about: "À propos",
+                nav_tech: "Technologies",
+                nav_ai: "IA",
+                nav_contact: "Contact",
+                scroll: "Faites défiler pour naviguer",
+                subtitle: "Développeur Full Stack & IA",
+                about_title: "À propos de moi",
+                about_text: "Je suis un développeur senior de Montevideo passionné par l'intelligence artificielle et le développement de solutions technologiques de pointe. Spécialisé dans la création d'applications intelligentes qui exploitent la puissance de l'apprentissage automatique et du traitement du langage naturel. Je suis fasciné par l'exploration des limites de l'IA, du développement de modèles linguistiques à la mise en œuvre de systèmes de recommandation et d'analyse prédictive. En dehors du code, je supporte Nacional et Liverpool FC, et je vais régulièrement à la salle de sport.",
+                tech_title: "Technologies",
+                ai_title: "Intelligence Artificielle",
+                contact_title: "Contact",
+                email: "Courriel",
+                click_forward: "↑ Cliquez pour aller plus loin dans l'espace",
+                click_backward: "↓ Cliquez pour revenir",
+                vibe_coded: "vibe-coded with"
+            },
+            zh: {
+                loading: "3... 2... 1... 发射",
+                nav_home: "首页",
+                nav_about: "关于我",
+                nav_tech: "技术栈",
+                nav_ai: "人工智能",
+                nav_contact: "联系方式",
+                scroll: "滚动导航",
+                subtitle: "全栈及人工智能开发者",
+                about_title: "关于我",
+                about_text: "我是来自蒙得维的亚的高级开发人员，对人工智能和尖端技术解决方案充满热情。专注于创建利用机器学习和自然语言处理能力的智能应用程序。我着迷于探索人工智能的极限，从开发语言模型到实施推荐系统和预测分析。在编程之外，我是Nacional和利物浦足球俱乐部的球迷，并定期去健身房保持活力。",
+                tech_title: "技术栈",
+                ai_title: "人工智能",
+                contact_title: "联系方式",
+                email: "电子邮件",
+                click_forward: "↑ 点击深入太空",
+                click_backward: "↓ 点击返回",
+                vibe_coded: "vibe-coded with"
+            }
+        };
+
+        // Global quotes array
+        let quotes = [];
+        
+        // Language management - detect browser language
+        function detectBrowserLanguage() {
+            const browserLang = navigator.language || navigator.userLanguage;
+            const langCode = browserLang.substring(0, 2).toLowerCase();
+            
+            // Map browser language to our supported languages
+            const supportedLangs = ['es', 'en', 'it', 'de', 'pt', 'fr', 'zh'];
+            
+            if (supportedLangs.includes(langCode)) {
+                return langCode;
+            }
+            
+            // Default fallbacks for common language codes
+            if (langCode === 'cn') return 'zh'; // Chinese
+            if (langCode === 'br') return 'pt'; // Brazilian Portuguese
+            
+            // Default to Spanish if not supported
+            return 'es';
+        }
+        
+        let currentLang = detectBrowserLanguage();
+        const languageSelector = document.getElementById('languageSelector');
+        
+        // Set the initial value of the language selector
+        languageSelector.value = currentLang;
+        
+        function updateLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            
+            // Update all translatable elements
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+            
+            // Update nav dot titles
+            document.querySelectorAll('[data-i18n-title]').forEach(element => {
+                const key = element.getAttribute('data-i18n-title');
+                if (translations[lang][key]) {
+                    element.setAttribute('data-title', translations[lang][key]);
+                }
+            });
+            
+            // Update quotes in 3D scene if they exist
+            if (quotes && quotes.length > 0) {
+                quotes.forEach(quoteSprite => {
+                    const quoteData = quoteSprite.userData.quoteData;
+                    const quote = quoteData[lang] || quoteData.en;
+                    
+                    // Recreate texture with new language
+                    const canvas = document.createElement('canvas');
+                    canvas.width = 512;
+                    canvas.height = 128;
+                    const context = canvas.getContext('2d');
+                    
+                    context.fillStyle = 'rgba(0, 0, 0, 0)';
+                    context.fillRect(0, 0, canvas.width, canvas.height);
+                    
+                    context.font = 'italic 42px "Inter", sans-serif';
+                    context.fillStyle = '#ffffff';
+                    context.textAlign = 'center';
+                    context.textBaseline = 'middle';
+                    context.shadowColor = '#ff6b6b';
+                    context.shadowBlur = 20;
+                    context.fillText(`"${quote}"`, canvas.width / 2, canvas.height / 2 - 25);
+                    
+                    // Draw author
+                    context.font = '28px "Inter", sans-serif';
+                    context.shadowColor = '#6b9dff';
+                    context.shadowBlur = 15;
+                    context.fillText(quoteData.author, canvas.width / 2, canvas.height / 2 + 35);
+                    
+                    const texture = new THREE.Texture(canvas);
+                    texture.needsUpdate = true;
+                    
+                    quoteSprite.material.map = texture;
+                    quoteSprite.material.needsUpdate = true;
+                });
+            }
+        }
+
+        // Update language on page load
+        updateLanguage(currentLang);
+        
+        languageSelector.addEventListener('change', (e) => {
+            updateLanguage(e.target.value);
+        });
+
+        // Day/Night toggle
+        const dayNightToggle = document.getElementById('dayNightToggle');
+        let isDayMode = false;
+
+        dayNightToggle.addEventListener('click', () => {
+            isDayMode = !isDayMode;
+            document.body.classList.toggle('day-mode', isDayMode);
+            dayNightToggle.classList.toggle('day', isDayMode);
+            
+            // Update Three.js scene for day/night
+            if (renderer) {
+                updateSceneLighting();
+            }
+        });
+
+        // Custom cursor - Spaceship
+        const cursor = document.getElementById('cursor');
+        const spaceship = cursor.querySelector('.spaceship');
+        let mouseX = 0, mouseY = 0;
+        let currentX = 0, currentY = 0;
+        let prevX = 0, prevY = 0;
+
+        let isWrapping = false;
+        let wrapTimer = null;
+        
+        function handleMouseMove(e) {
+            // If we're in the middle of wrapping, ignore this event
+            if (isWrapping) {
+                return;
+            }
+            
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            // Wrap around effect with improved logic
+            const edgeThreshold = 2; // pixels from edge to trigger wrap
+            const wrapOffset = 20; // pixels from opposite edge after wrap
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+            
+            let wrapped = false;
+            let newX = mouseX;
+            let newY = mouseY;
+            
+            // Check horizontal edges
+            if (mouseX <= edgeThreshold) {
+                newX = screenWidth - wrapOffset;
+                wrapped = true;
+            } else if (mouseX >= screenWidth - edgeThreshold) {
+                newX = wrapOffset;
+                wrapped = true;
+            }
+            
+            // Check vertical edges
+            if (mouseY <= edgeThreshold) {
+                newY = screenHeight - wrapOffset;
+                wrapped = true;
+            } else if (mouseY >= screenHeight - edgeThreshold) {
+                newY = wrapOffset;
+                wrapped = true;
+            }
+            
+            if (wrapped && !isWrapping) {
+                isWrapping = true;
+                
+                // Hide cursor briefly during wrap
+                cursor.style.transition = 'opacity 0.1s';
+                cursor.style.opacity = '0';
+                
+                // Update position after brief delay
+                setTimeout(() => {
+                    currentX = newX;
+                    currentY = newY;
+                    mouseX = newX;
+                    mouseY = newY;
+                    cursor.style.left = `${newX}px`;
+                    cursor.style.top = `${newY}px`;
+                    
+                    // Show cursor again
+                    setTimeout(() => {
+                        cursor.style.opacity = '1';
+                        cursor.style.transition = '';
+                        isWrapping = false;
+                    }, 50);
+                }, 100);
+            }
+        }
+        
+        document.addEventListener('mousemove', handleMouseMove);
+        
+        // Add wormhole hover detection
+        document.addEventListener('mousemove', (e) => {
+            if (camera && raycaster && wormholes.length > 0) {
+                // Update mouse position for raycaster
+                mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+                mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+                
+                raycaster.setFromCamera(mouse, camera);
+                
+                // Check all wormhole objects
+                const wormholeObjects = [];
+                wormholes.forEach(wormhole => {
+                    wormhole.group.traverse(child => {
+                        if (child.isMesh) {
+                            wormholeObjects.push(child);
+                        }
+                    });
+                });
+                
+                const intersects = raycaster.intersectObjects(wormholeObjects);
+                
+                if (intersects.length > 0) {
+                    // Hovering over a wormhole - make rocket point to depth
+                    spaceship.classList.add('hovering-wormhole');
+                    spaceship.style.transform = 'rotate(0deg)'; // Point to depth
+                    
+                    // Change color
+                    spaceship.style.filter = 'hue-rotate(120deg) brightness(1.5)';
+                } else {
+                    // Not hovering - restore normal behavior
+                    spaceship.classList.remove('hovering-wormhole');
+                    spaceship.style.filter = '';
+                }
+            }
+        });
+        
+        // Add click navigation
+        let isNavigating = false;
+        
+        // Common click handler for both left and right clicks
+        function handleNavClick(e) {
+            // Prevent context menu on right click
+            if (e.type === 'contextmenu') {
+                e.preventDefault();
+            }
+            // Don't navigate if clicking on UI elements
+            if (e.target.closest('.nav-dot') || e.target.closest('.contact-link') || 
+                e.target.closest('#dayNightToggle') || e.target.closest('#languageSelector') ||
+                e.target.closest('#loading')) {
+                return;
+            }
+            
+            // Check for wormhole clicks
+            mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+            
+            raycaster.setFromCamera(mouse, camera);
+            
+            // Check all wormhole objects
+            const wormholeObjects = [];
+            wormholes.forEach(wormhole => {
+                wormhole.group.traverse(child => {
+                    if (child.isMesh) {
+                        wormholeObjects.push(child);
+                    }
+                });
+            });
+            
+            const intersects = raycaster.intersectObjects(wormholeObjects);
+            
+            if (intersects.length > 0) {
+                // Find which wormhole was clicked
+                const clickedObject = intersects[0].object;
+                let clickedWormhole = null;
+                
+                wormholes.forEach(wormhole => {
+                    wormhole.group.traverse(child => {
+                        if (child === clickedObject) {
+                            clickedWormhole = wormhole;
+                        }
+                    });
+                });
+                
+                if (clickedWormhole) {
+                    // Create wormhole travel effect
+                    const wormholeContainer = document.createElement('div');
+                    wormholeContainer.style.cssText = `
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        z-index: 999;
+                        overflow: hidden;
+                        background: black;
+                    `;
+                    
+                    // Create tunnel effect
+                    const tunnel = document.createElement('div');
+                    tunnel.style.cssText = `
+                        position: absolute;
+                        width: 200%;
+                        height: 200%;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        background: conic-gradient(from 0deg at 50% 50%, 
+                            #000000 0deg, #4444ff 60deg, #8888ff 120deg, 
+                            #ffffff 180deg, #8888ff 240deg, #4444ff 300deg, #000000 360deg);
+                        animation: wormholeSpin 1s linear infinite;
+                    `;
+                    
+                    // Create speed lines
+                    const speedLines = document.createElement('div');
+                    speedLines.style.cssText = `
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        background: repeating-linear-gradient(
+                            90deg,
+                            transparent,
+                            transparent 2px,
+                            rgba(100, 126, 234, 0.3) 2px,
+                            rgba(100, 126, 234, 0.3) 4px
+                        );
+                        animation: speedLinesMove 0.1s linear infinite;
+                    `;
+                    
+                    // Create center vortex
+                    const vortex = document.createElement('div');
+                    vortex.style.cssText = `
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        top: 0;
+                        left: 0;
+                        background: radial-gradient(circle at center,
+                            transparent 0%,
+                            transparent 30%,
+                            rgba(118, 75, 162, 0.2) 40%,
+                            rgba(102, 126, 234, 0.5) 60%,
+                            rgba(0, 0, 0, 1) 100%);
+                        animation: vortexPulse 0.5s ease-in-out infinite;
+                    `;
+                    
+                    // Time travel text
+                    const travelText = document.createElement('div');
+                    travelText.style.cssText = `
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        font-family: 'Orbitron', monospace;
+                        font-size: 2rem;
+                        color: white;
+                        text-align: center;
+                        animation: travelTextPulse 0.5s ease-in-out infinite;
+                        text-shadow: 0 0 20px #667eea;
+                    `;
+                    travelText.textContent = 'TIME TRAVELING...';
+                    
+                    wormholeContainer.appendChild(tunnel);
+                    wormholeContainer.appendChild(speedLines);
+                    wormholeContainer.appendChild(vortex);
+                    wormholeContainer.appendChild(travelText);
+                    document.body.appendChild(wormholeContainer);
+                    
+                    // After 1 second of travel, show destination
+                    setTimeout(() => {
+                        // Clear tunnel effects
+                        wormholeContainer.innerHTML = '';
+                        
+                        // Show arrival
+                        const arrivalOverlay = document.createElement('div');
+                        arrivalOverlay.style.cssText = `
+                            width: 100%;
+                            height: 100%;
+                            background: radial-gradient(circle at center, 
+                                rgba(102, 126, 234, 0) 0%,
+                                rgba(102, 126, 234, 0.5) 40%,
+                                rgba(118, 75, 162, 0.8) 70%,
+                                rgba(0, 0, 0, 1) 100%);
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            animation: portalOpen 0.5s ease-out;
+                        `;
+                        
+                        const arrivalText = document.createElement('div');
+                        arrivalText.style.cssText = `
+                            font-family: 'Orbitron', monospace;
+                            color: white;
+                            text-align: center;
+                            animation: fadeInScale 0.5s ease-out;
+                        `;
+                        arrivalText.innerHTML = `
+                            <div style="font-size: 5rem; font-weight: bold; margin-bottom: 20px;">${clickedWormhole.year}</div>
+                            <div style="font-size: 2rem; margin-bottom: 10px;">${clickedWormhole.event}</div>
+                            <div style="font-size: 1rem; opacity: 0.7;">You have arrived in the past!</div>
+                        `;
+                        
+                        arrivalOverlay.appendChild(arrivalText);
+                        wormholeContainer.appendChild(arrivalOverlay);
+                        
+                        // Remove everything after showing destination
+                        setTimeout(() => {
+                            wormholeContainer.style.animation = 'fadeOut 0.5s ease-in';
+                            setTimeout(() => {
+                                document.body.removeChild(wormholeContainer);
+                            }, 500);
+                        }, 1500);
+                    }, 1000);
+                    
+                    return;
+                }
+            }
+            
+            // Normal navigation if no wormhole was clicked
+            const clickY = e.clientY / window.innerHeight;
+            const clickX = e.clientX / window.innerWidth;
+            
+            // Top half = go deeper (forward), bottom half = go back
+            if (clickY < 0.5) {
+                // Go forward
+                let newSection = currentSection + 1;
+                if (newSection > 4) newSection = 0; // Loop
+                navigateToSection(newSection);
+                
+                // Point rocket forward during navigation
+                if (!isNavigating) {
+                    isNavigating = true;
+                    spaceship.style.transform = 'rotate(0deg)';
+                    spaceship.classList.add('navigating');
+                    
+                    setTimeout(() => {
+                        isNavigating = false;
+                        spaceship.classList.remove('navigating');
+                    }, 1500);
+                }
+            } else {
+                // Go backward
+                let newSection = currentSection - 1;
+                if (newSection < 0) newSection = 4; // Loop
+                navigateToSection(newSection);
+                
+                // Point rocket backward during navigation
+                if (!isNavigating) {
+                    isNavigating = true;
+                    spaceship.style.transform = 'rotate(180deg)';
+                    spaceship.classList.add('navigating');
+                    
+                    setTimeout(() => {
+                        isNavigating = false;
+                        spaceship.classList.remove('navigating');
+                    }, 1500);
+                }
+            }
+        }
+        
+        // Add event listeners for both left and right clicks
+        document.addEventListener('click', handleNavClick);
+        document.addEventListener('contextmenu', handleNavClick);
+
+        function animateSpaceship() {
+            // Smooth movement
+            currentX += (mouseX - currentX) * 0.15;
+            currentY += (mouseY - currentY) * 0.15;
+            
+            cursor.style.left = currentX + 'px';
+            cursor.style.top = currentY + 'px';
+            
+            // Calculate rotation based on movement direction
+            const deltaX = currentX - prevX;
+            const deltaY = currentY - prevY;
+            const angle = Math.atan2(deltaY, deltaX) * 180 / Math.PI + 90;
+            
+            // Don't override rotation if navigating
+            if (!isNavigating && (Math.abs(deltaX) > 0.1 || Math.abs(deltaY) > 0.1)) {
+                spaceship.style.transform = `rotate(${angle}deg)`;
+            }
+            
+            prevX = currentX;
+            prevY = currentY;
+            
+            requestAnimationFrame(animateSpaceship);
+        }
+        animateSpaceship();
+
+        // Three.js Scene
+        let scene, camera, renderer;
+        let starField, blackHoles = [];
+        let supernovas = [];
+        let sun, sunLight;
+        let currentSection = 0;
+        let targetZ = 0;
+        let sections = [];
+        let clock = new THREE.Clock();
+        let equations = [];
+        let spacetimeGrid;
+        let wormholes = [];
+        let raycaster = new THREE.Raycaster();
+        let mouse = new THREE.Vector2();
+
+        // Create circular texture for stars
+        function createCircleTexture() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 32;
+            canvas.height = 32;
+            const ctx = canvas.getContext('2d');
+            
+            // Create gradient
+            const gradient = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
+            gradient.addColorStop(0, 'rgba(255,255,255,1)');
+            gradient.addColorStop(0.5, 'rgba(255,255,255,0.5)');
+            gradient.addColorStop(1, 'rgba(255,255,255,0)');
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 32, 32);
+            
+            const texture = new THREE.Texture(canvas);
+            texture.needsUpdate = true;
+            return texture;
+        }
+
+        function initThreeJS() {
+            // Scene setup
+            scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x000000, 0.0008);
+
+            // Camera setup
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
+            camera.position.set(0, 0, 0);
+
+            // Renderer setup
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+            // Create star field
+            createStarField();
+
+            // Create black holes
+            createBlackHoles();
+
+            // Create sun for day mode
+            createSun();
+
+            // Create sections in 3D space
+            createSections();
+
+            // Create supernovas
+            createSupernovas();
+            
+            // Create physics equations
+            createPhysicsEquations();
+            
+            // Create spacetime grid
+            createSpacetimeGrid();
+            
+            // Create wormholes
+            createWormholes();
+            
+            
+            // Create inspiring quotes
+            createQuotes();
+
+            // Initial lighting
+            updateSceneLighting();
+
+            // Mouse wheel handler
+            window.addEventListener('wheel', onMouseWheel);
+
+            // Navigation click handlers
+            document.querySelectorAll('.nav-dot').forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const sectionIndex = parseInt(dot.dataset.section);
+                    navigateToSection(sectionIndex);
+                });
+            });
+
+            // Start animation
+            animate();
+
+            // Start countdown and launch sequence
+            const loadingText = document.querySelector('.loading-text');
+            const spaceship = document.querySelector('.spaceship');
+            
+            // Countdown sequence
+            let countdown = 3;
+            const countdownInterval = setInterval(() => {
+                if (countdown > 0) {
+                    loadingText.textContent = countdown.toString();
+                    countdown--;
+                } else {
+                    clearInterval(countdownInterval);
+                    if (currentLang === 'es') {
+                        loadingText.textContent = '¡DESPEGUE!';
+                    } else if (currentLang === 'en') {
+                        loadingText.textContent = 'LIFTOFF!';
+                    } else if (currentLang === 'it') {
+                        loadingText.textContent = 'DECOLLO!';
+                    } else if (currentLang === 'de') {
+                        loadingText.textContent = 'START!';
+                    } else if (currentLang === 'pt') {
+                        loadingText.textContent = 'DECOLAGEM!';
+                    } else if (currentLang === 'fr') {
+                        loadingText.textContent = 'DÉCOLLAGE!';
+                    } else if (currentLang === 'zh') {
+                        loadingText.textContent = '发射！';
+                    }
+                    
+                    // Start rocket animation
+                    spaceship.classList.add('launching');
+                    cursor.classList.add('visible'); // Show cursor during launch
+                    
+                    // Hide loading screen after launch
+                    setTimeout(() => {
+                        document.getElementById('loading').style.opacity = '0';
+                        setTimeout(() => {
+                            document.getElementById('loading').style.display = 'none';
+                            spaceship.classList.remove('launching');
+                        }, 500);
+                    }, 1500);
+                }
+            }, 700);
+        }
+
+        function createStarField() {
+            const geometry = new THREE.BufferGeometry();
+            const vertices = [];
+            const colors = [];
+
+            // Create stars distributed throughout the entire journey
+            for (let i = 0; i < 15000; i++) {
+                const x = (Math.random() - 0.5) * 3000;
+                const y = (Math.random() - 0.5) * 3000;
+                const z = Math.random() * 5000 - 2500; // Stars from z=2500 to z=-2500 to cover all sections
+
+                vertices.push(x, y, z);
+
+                // Realistic star colors
+                const color = new THREE.Color();
+                const starType = Math.random();
+                
+                if (starType < 0.15) {
+                    // Blue stars (hot) - O and B type
+                    color.setRGB(0.7 + Math.random() * 0.3, 0.8 + Math.random() * 0.2, 1);
+                } else if (starType < 0.3) {
+                    // White stars - A and F type
+                    color.setRGB(0.95 + Math.random() * 0.05, 0.95 + Math.random() * 0.05, 1);
+                } else if (starType < 0.6) {
+                    // Yellow stars (like our Sun) - G type
+                    color.setRGB(1, 0.9 + Math.random() * 0.1, 0.7 + Math.random() * 0.2);
+                } else {
+                    // Orange/Red stars (cool) - K and M type
+                    color.setRGB(1, 0.6 + Math.random() * 0.3, 0.3 + Math.random() * 0.3);
+                }
+                
+                colors.push(color.r, color.g, color.b);
+            }
+
+            geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+            geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+            const material = new THREE.PointsMaterial({
+                size: 3,
+                vertexColors: true,
+                blending: THREE.AdditiveBlending,
+                transparent: true,
+                opacity: 0.8,
+                sizeAttenuation: true,
+                alphaTest: 0.01,
+                map: createCircleTexture()
+            });
+
+            starField = new THREE.Points(geometry, material);
+            scene.add(starField);
+        }
+
+        function createBlackHoles() {
+            for (let i = 0; i < 5; i++) {
+                const blackHoleGroup = new THREE.Group();
+                
+                // Event horizon
+                const geometry = new THREE.TorusGeometry(30, 15, 16, 100);
+                const material = new THREE.MeshBasicMaterial({
+                    color: 0x000000,
+                    transparent: true,
+                    opacity: 0.8
+                });
+                const blackHole = new THREE.Mesh(geometry, material);
+                
+                // Accretion disk
+                const diskGeometry = new THREE.RingGeometry(35, 60, 64);
+                const diskMaterial = new THREE.MeshBasicMaterial({
+                    color: 0x667eea,
+                    transparent: true,
+                    opacity: 0.6,
+                    side: THREE.DoubleSide
+                });
+                const disk = new THREE.Mesh(diskGeometry, diskMaterial);
+                
+                blackHoleGroup.add(blackHole);
+                blackHoleGroup.add(disk);
+                
+                blackHoleGroup.position.set(
+                    (Math.random() - 0.5) * 800,
+                    (Math.random() - 0.5) * 400,
+                    -200 - i * 400
+                );
+                
+                blackHoleGroup.userData = {
+                    rotationSpeed: Math.random() * 0.02 + 0.01,
+                    orbitSpeed: Math.random() * 0.001
+                };
+                
+                blackHoles.push(blackHoleGroup);
+                scene.add(blackHoleGroup);
+            }
+        }
+
+        function createSun() {
+            // Sun light only - no visible sphere
+            sunLight = new THREE.DirectionalLight(0xffffff, 2.5);
+            sunLight.position.set(300, 400, -200);
+            sunLight.castShadow = true;
+            sunLight.shadow.mapSize.width = 2048;
+            sunLight.shadow.mapSize.height = 2048;
+            sunLight.visible = false;
+            scene.add(sunLight);
+
+            // Additional ambient light for day
+            const hemisphereLight = new THREE.HemisphereLight(0x87CEEB, 0x545454, 0.5);
+            hemisphereLight.visible = false;
+            scene.add(hemisphereLight);
+            
+            // Store reference for toggling
+            sun = { visible: false, hemisphereLight };
+        }
+
+        function createSupernovas() {
+            // Create supernova explosion class
+            class Supernova {
+                constructor() {
+                    this.group = new THREE.Group();
+                    
+                    // Random position distributed throughout the entire journey
+                    this.group.position.set(
+                        (Math.random() - 0.5) * 600,
+                        (Math.random() - 0.5) * 400,
+                        Math.random() * 2500 - 2500  // From z=0 to z=-2500 to cover all sections
+                    );
+                    
+                    // Core sphere - make it glow
+                    const coreGeometry = new THREE.SphereGeometry(10, 16, 16);
+                    const coreMaterial = new THREE.MeshBasicMaterial({
+                        color: 0xffffff,  // White core
+                        transparent: true,
+                        opacity: 0.5,
+                        blending: THREE.AdditiveBlending
+                    });
+                    this.core = new THREE.Mesh(coreGeometry, coreMaterial);
+                    this.group.add(this.core);
+                    
+                    // Explosion ring
+                    const ringGeometry = new THREE.RingGeometry(5, 20, 32);
+                    const ringMaterial = new THREE.MeshBasicMaterial({
+                        color: 0xffffff,  // White ring
+                        transparent: true,
+                        opacity: 0,
+                        side: THREE.DoubleSide,
+                        blending: THREE.AdditiveBlending
+                    });
+                    this.ring = new THREE.Mesh(ringGeometry, ringMaterial);
+                    this.group.add(this.ring);
+                    
+                    // Outer glow
+                    const glowGeometry = new THREE.SphereGeometry(20, 16, 16);
+                    const glowMaterial = new THREE.MeshBasicMaterial({
+                        color: 0xaaccff,  // Slight blue-white glow
+                        transparent: true,
+                        opacity: 0,
+                        blending: THREE.AdditiveBlending
+                    });
+                    this.glow = new THREE.Mesh(glowGeometry, glowMaterial);
+                    this.group.add(this.glow);
+                    
+                    // Particles
+                    const particleCount = 100;
+                    const particlesGeometry = new THREE.BufferGeometry();
+                    const positions = new Float32Array(particleCount * 3);
+                    
+                    for (let i = 0; i < particleCount * 3; i += 3) {
+                        const theta = Math.random() * Math.PI * 2;
+                        const phi = Math.random() * Math.PI;
+                        positions[i] = Math.sin(phi) * Math.cos(theta);
+                        positions[i + 1] = Math.sin(phi) * Math.sin(theta);
+                        positions[i + 2] = Math.cos(phi);
+                    }
+                    
+                    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+                    
+                    const particlesMaterial = new THREE.PointsMaterial({
+                        color: 0xffffff,  // White particles
+                        size: 2,
+                        transparent: true,
+                        opacity: 0,
+                        blending: THREE.AdditiveBlending
+                    });
+                    
+                    this.particles = new THREE.Points(particlesGeometry, particlesMaterial);
+                    this.group.add(this.particles);
+                    
+                    this.phase = 0;
+                    this.exploding = false;
+                    this.pulsing = true;
+                    this.pulseCount = 0;
+                    this.nextExplosion = Math.random() * 5 + 3; // Random time between explosions (3-8 seconds)
+                    
+                    scene.add(this.group);
+                }
+                
+                explode() {
+                    this.exploding = true;
+                    this.pulsing = false;
+                    this.phase = 0;
+                }
+                
+                update(delta) {
+                    if (!delta || delta > 0.1) delta = 0.016; // Cap delta time
+                    
+                    this.nextExplosion -= delta;
+                    
+                    // Always pulse when not exploding
+                    if (!this.exploding) {
+                        this.pulseCount += delta * 3;
+                        const pulseIntensity = Math.sin(this.pulseCount) * 0.5 + 0.5;
+                        
+                        // More dramatic pulsing as explosion approaches
+                        if (this.nextExplosion <= 3) {
+                            this.core.material.opacity = 0.3 + pulseIntensity * 0.7;
+                            this.core.scale.setScalar(1 + pulseIntensity * 0.8);
+                            this.core.material.color.setHex(0xffffff); // Turn white when about to explode
+                        } else {
+                            this.core.material.opacity = 0.4 + pulseIntensity * 0.3;
+                            this.core.scale.setScalar(1 + pulseIntensity * 0.2);
+                        }
+                    }
+                    
+                    if (this.nextExplosion <= 0 && !this.exploding) {
+                        this.explode();
+                        console.log('Supernova exploding!');
+                    }
+                    
+                    if (this.exploding) {
+                        this.phase += delta * 1.5;
+                        
+                        if (this.phase < 0.5) {
+                            // Phase 1: Core brightens rapidly
+                            const brightness = this.phase * 2;
+                            this.core.material.opacity = Math.min(1, brightness * 1.5);
+                            this.core.scale.setScalar(1 + brightness * 4);
+                            this.core.material.color.setHex(0xffffff);
+                        } else if (this.phase < 2.5) {
+                            // Phase 2: Ring expands with bright flash
+                            const ringPhase = (this.phase - 0.5) / 2;
+                            this.ring.material.opacity = (1 - ringPhase) * 0.9;
+                            this.ring.scale.setScalar(1 + ringPhase * 40);
+                            this.glow.material.opacity = (1 - ringPhase) * 0.7;
+                            this.glow.scale.setScalar(1 + ringPhase * 20);
+                            
+                            // Core fades
+                            this.core.material.opacity = (1 - ringPhase) * 0.8;
+                            
+                            // Particles expand
+                            const positions = this.particles.geometry.attributes.position.array;
+                            for (let i = 0; i < positions.length; i += 3) {
+                                const scale = 1 + ringPhase * 50;
+                                positions[i] *= 1.1;
+                                positions[i + 1] *= 1.1;
+                                positions[i + 2] *= 1.1;
+                            }
+                            this.particles.geometry.attributes.position.needsUpdate = true;
+                            this.particles.material.opacity = 1 - ringPhase;
+                        } else {
+                            // Reset
+                            this.exploding = false;
+                            this.pulsing = true;
+                            this.pulseCount = 0;
+                            this.core.material.opacity = 0.5;
+                            this.ring.material.opacity = 0;
+                            this.glow.material.opacity = 0;
+                            this.particles.material.opacity = 0;
+                            this.core.scale.setScalar(1);
+                            this.ring.scale.setScalar(1);
+                            this.glow.scale.setScalar(1);
+                            
+                            // Reset particles
+                            const positions = this.particles.geometry.attributes.position.array;
+                            for (let i = 0; i < positions.length; i += 3) {
+                                const theta = Math.random() * Math.PI * 2;
+                                const phi = Math.random() * Math.PI;
+                                positions[i] = Math.sin(phi) * Math.cos(theta);
+                                positions[i + 1] = Math.sin(phi) * Math.sin(theta);
+                                positions[i + 2] = Math.cos(phi);
+                            }
+                            this.particles.geometry.attributes.position.needsUpdate = true;
+                            
+                            // New random position distributed throughout the journey
+                            this.group.position.set(
+                                (Math.random() - 0.5) * 600,
+                                (Math.random() - 0.5) * 400,
+                                Math.random() * 2500 - 2500
+                            );
+                            
+                            this.nextExplosion = Math.random() * 5 + 3;
+                        }
+                    }
+                }
+            }
+            
+            // Create just one supernova for subtle effect
+            supernovas.push(new Supernova());
+            
+            // Force one to explode soon for testing
+            if (supernovas.length > 0) {
+                supernovas[0].nextExplosion = 2; // Explode in 2 seconds
+                console.log('Supernova will explode in 2 seconds');
+            }
+        }
+
+        function createPhysicsEquations() {
+            const equations = [
+                "E = mc²",
+                "∇ × E = -∂B/∂t",
+                "F = ma",
+                "∮ B·dl = μ₀I",
+                "ψ(x,t) = Ae^(ikx-iωt)",
+                "S = k ln Ω",
+                "∇²φ = ρ/ε₀",
+                "H|ψ⟩ = E|ψ⟩",
+                "F = G(m₁m₂)/r²",
+                "∇·E = ρ/ε₀",
+                "pV = nRT",
+                "ΔS ≥ 0",
+                "∂ψ/∂t = -iĤψ/ħ",
+                "∇²ψ + k²ψ = 0",
+                "F = -kx"
+            ];
+            
+            const loader = new THREE.FontLoader();
+            
+            // Use a simple approach with sprites for equations
+            equations.forEach((equation, index) => {
+                const canvas = document.createElement('canvas');
+                canvas.width = 768;
+                canvas.height = 192;
+                const context = canvas.getContext('2d');
+                
+                // Set up canvas styling
+                context.fillStyle = 'rgba(0, 0, 0, 0)';
+                context.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Draw equation text
+                context.font = 'bold 64px "Courier New", monospace';
+                context.fillStyle = '#ffffff';
+                context.textAlign = 'center';
+                context.textBaseline = 'middle';
+                context.shadowColor = '#667eea';
+                context.shadowBlur = 10;
+                context.fillText(equation, canvas.width / 2, canvas.height / 2);
+                
+                // Create texture from canvas
+                const texture = new THREE.Texture(canvas);
+                texture.needsUpdate = true;
+                
+                // Create sprite material
+                const material = new THREE.SpriteMaterial({
+                    map: texture,
+                    transparent: true,
+                    opacity: 0.7,
+                    blending: THREE.AdditiveBlending
+                });
+                
+                // Create sprite
+                const sprite = new THREE.Sprite(material);
+                sprite.scale.set(150, 37.5, 1);
+                
+                // Random position in 3D space
+                sprite.position.set(
+                    (Math.random() - 0.5) * 800,
+                    (Math.random() - 0.5) * 600,
+                    -Math.random() * 2000 - 300
+                );
+                
+                scene.add(sprite);
+                equations.push(sprite);
+            });
+        }
+
+        function createSpacetimeGrid() {
+            // Create multiple grid planes at different Y levels for better 3D effect
+            const gridGroup = new THREE.Group();
+            
+            // Grid parameters
+            const gridSizeX = 800;
+            const gridSizeZ = 3000;
+            const divisionsX = 20;
+            const divisionsZ = 60;
+            const gridY = [-150, -75, 75, 150]; // Multiple layers, skip center to avoid text overlap
+            
+            // Create simple grid material first
+            const gridMaterial = new THREE.LineBasicMaterial({
+                color: 0x4488ff,
+                transparent: true,
+                opacity: 0.15,
+                blending: THREE.AdditiveBlending
+            });
+            
+            // Create grid planes
+            gridY.forEach((y, layerIndex) => {
+                const geometry = new THREE.BufferGeometry();
+                const vertices = [];
+                
+                // Create grid lines in X direction
+                for (let i = 0; i <= divisionsZ; i++) {
+                    const z = (i / divisionsZ) * gridSizeZ - gridSizeZ / 2 - 1250; // Center on journey
+                    vertices.push(-gridSizeX / 2, y, z);
+                    vertices.push(gridSizeX / 2, y, z);
+                }
+                
+                // Create grid lines in Z direction
+                for (let i = 0; i <= divisionsX; i++) {
+                    const x = (i / divisionsX - 0.5) * gridSizeX;
+                    vertices.push(x, y, -gridSizeZ / 2 - 1250);
+                    vertices.push(x, y, gridSizeZ / 2 - 1250);
+                }
+                
+                geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+                
+                const gridMesh = new THREE.LineSegments(geometry, gridMaterial.clone());
+                gridMesh.material.opacity = 0.15 - layerIndex * 0.02; // Fade outer layers
+                gridGroup.add(gridMesh);
+            });
+            
+            // Add vertical connecting lines
+            const verticalGeometry = new THREE.BufferGeometry();
+            const verticalVertices = [];
+            
+            // Create vertical lines at intersection points
+            for (let i = 0; i <= divisionsX; i += 4) {
+                for (let j = 0; j <= divisionsZ; j += 4) {
+                    const x = (i / divisionsX - 0.5) * gridSizeX;
+                    const z = (j / divisionsZ) * gridSizeZ - gridSizeZ / 2 - 1250;
+                    
+                    verticalVertices.push(x, gridY[0], z);
+                    verticalVertices.push(x, gridY[gridY.length - 1], z);
+                }
+            }
+            
+            verticalGeometry.setAttribute('position', new THREE.Float32BufferAttribute(verticalVertices, 3));
+            const verticalLines = new THREE.LineSegments(verticalGeometry, gridMaterial);
+            gridGroup.add(verticalLines);
+            
+            // Create warping shader for distortion near black holes
+            const warpVertexShader = `
+                uniform float time;
+                uniform vec3 blackHolePositions[5];
+                varying float vDistortion;
+                
+                void main() {
+                    vec3 pos = position;
+                    float totalDistortion = 0.0;
+                    
+                    // Calculate cumulative distortion from all black holes
+                    for (int i = 0; i < 5; i++) {
+                        float dist = distance(pos, blackHolePositions[i]);
+                        float influence = 1.0 / (1.0 + dist * dist * 0.0001);
+                        totalDistortion += influence;
+                        
+                        // Apply warping
+                        if (influence > 0.01) {
+                            vec3 direction = normalize(blackHolePositions[i] - pos);
+                            float warpAmount = influence * 30.0 * (1.0 + 0.3 * sin(time + dist * 0.01));
+                            pos += direction * warpAmount;
+                            
+                            // Add spiral effect
+                            float angle = time * 0.5 + dist * 0.005;
+                            pos.x += sin(angle) * warpAmount * 0.3;
+                            pos.z += cos(angle) * warpAmount * 0.3;
+                        }
+                    }
+                    
+                    vDistortion = min(totalDistortion, 1.0);
+                    gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+                }
+            `;
+            
+            const warpFragmentShader = `
+                varying float vDistortion;
+                
+                void main() {
+                    vec3 baseColor = vec3(0.2, 0.5, 1.0);
+                    vec3 warpColor = vec3(0.8, 0.9, 1.0);
+                    vec3 color = mix(baseColor, warpColor, vDistortion);
+                    
+                    float opacity = 0.2 + vDistortion * 0.6;
+                    gl_FragColor = vec4(color, opacity);
+                }
+            `;
+            
+            // Create warped grid overlay
+            const warpedGridMaterial = new THREE.ShaderMaterial({
+                vertexShader: warpVertexShader,
+                fragmentShader: warpFragmentShader,
+                transparent: true,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false,
+                uniforms: {
+                    time: { value: 0 },
+                    blackHolePositions: {
+                        value: [
+                            new THREE.Vector3(150, 100, -300),
+                            new THREE.Vector3(-200, -150, -800),
+                            new THREE.Vector3(100, -200, -1300),
+                            new THREE.Vector3(-150, 150, -1800),
+                            new THREE.Vector3(0, 0, -2300)
+                        ]
+                    }
+                }
+            });
+            
+            // Create a finer grid for the warping effect
+            const warpGeometry = new THREE.BufferGeometry();
+            const warpVertices = [];
+            const fineDivisions = 40;
+            
+            // Create a mesh of points for warping
+            for (let i = 0; i <= fineDivisions; i++) {
+                for (let j = 0; j <= fineDivisions * 2; j++) {
+                    const x = (i / fineDivisions - 0.5) * gridSizeX;
+                    const z = (j / (fineDivisions * 2)) * gridSizeZ - gridSizeZ / 2 - 1250;
+                    
+                    // Create horizontal lines at multiple Y levels (avoiding center)
+                    if (j < fineDivisions * 2) {
+                        // Upper plane
+                        warpVertices.push(x, 50, z);
+                        warpVertices.push(x, 50, z + gridSizeZ / (fineDivisions * 2));
+                        // Lower plane
+                        warpVertices.push(x, -50, z);
+                        warpVertices.push(x, -50, z + gridSizeZ / (fineDivisions * 2));
+                    }
+                    
+                    // Create vertical lines
+                    if (i < fineDivisions && j % 4 === 0) {
+                        warpVertices.push(x, -50, z);
+                        warpVertices.push(x + gridSizeX / fineDivisions, -50, z);
+                        warpVertices.push(x, 50, z);
+                        warpVertices.push(x + gridSizeX / fineDivisions, 50, z);
+                    }
+                }
+            }
+            
+            warpGeometry.setAttribute('position', new THREE.Float32BufferAttribute(warpVertices, 3));
+            const warpedGrid = new THREE.LineSegments(warpGeometry, warpedGridMaterial);
+            gridGroup.add(warpedGrid);
+            
+            spacetimeGrid = gridGroup;
+            spacetimeGrid.userData.warpedGrid = warpedGrid;
+            scene.add(spacetimeGrid);
+        }
+
+        function createWormholes() {
+            // Wormhole class for time travel portals
+            class Wormhole {
+                constructor(event, year, position) {
+                    this.event = event;
+                    this.year = year;
+                    this.group = new THREE.Group();
+                    this.group.position.copy(position);
+                    
+                    // Create wormhole geometry
+                    // Outer event horizon
+                    const outerRingGeo = new THREE.TorusGeometry(35, 5, 16, 100);
+                    const outerRingMat = new THREE.ShaderMaterial({
+                        vertexShader: `
+                            varying vec2 vUv;
+                            varying vec3 vPosition;
+                            void main() {
+                                vUv = uv;
+                                vPosition = position;
+                                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                            }
+                        `,
+                        fragmentShader: `
+                            uniform float time;
+                            varying vec2 vUv;
+                            varying vec3 vPosition;
+                            
+                            void main() {
+                                // Swirling gradient effect
+                                float angle = atan(vPosition.y, vPosition.x);
+                                float radius = length(vPosition.xy);
+                                
+                                float swirl = sin(angle * 3.0 + time * 2.0 + radius * 0.1) * 0.5 + 0.5;
+                                vec3 color = mix(vec3(0.1, 0.3, 0.8), vec3(0.8, 0.2, 0.9), swirl);
+                                
+                                float glow = 1.0 - smoothstep(15.0, 25.0, radius);
+                                
+                                gl_FragColor = vec4(color, glow * 0.8);
+                            }
+                        `,
+                        uniforms: {
+                            time: { value: 0 }
+                        },
+                        transparent: true,
+                        blending: THREE.AdditiveBlending,
+                        side: THREE.DoubleSide
+                    });
+                    this.outerRing = new THREE.Mesh(outerRingGeo, outerRingMat);
+                    this.group.add(this.outerRing);
+                    
+                    // Inner portal
+                    const portalGeo = new THREE.CircleGeometry(32, 64);
+                    const portalMat = new THREE.ShaderMaterial({
+                        vertexShader: `
+                            varying vec2 vUv;
+                            void main() {
+                                vUv = uv;
+                                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                            }
+                        `,
+                        fragmentShader: `
+                            uniform float time;
+                            varying vec2 vUv;
+                            
+                            // Fractal noise function
+                            float noise(vec2 p) {
+                                return sin(p.x * 10.0) * sin(p.y * 10.0);
+                            }
+                            
+                            void main() {
+                                vec2 center = vUv - 0.5;
+                                float dist = length(center);
+                                
+                                // Spiral distortion
+                                float angle = atan(center.y, center.x);
+                                float spiral = angle + dist * 10.0 - time * 3.0;
+                                
+                                // Fractal pattern
+                                vec2 distorted = center * (1.0 + sin(spiral) * 0.1);
+                                float pattern = noise(distorted * 20.0 + time);
+                                
+                                // Color based on distance and pattern
+                                vec3 innerColor = vec3(0.0, 0.0, 0.0); // Black hole center
+                                vec3 midColor = vec3(0.2, 0.4, 0.9);
+                                vec3 outerColor = vec3(0.9, 0.6, 1.0);
+                                
+                                vec3 color = mix(innerColor, midColor, smoothstep(0.0, 0.3, dist));
+                                color = mix(color, outerColor, smoothstep(0.3, 0.5, dist));
+                                color += pattern * 0.1;
+                                
+                                // Fade at edges
+                                float alpha = 1.0 - smoothstep(0.4, 0.5, dist);
+                                
+                                gl_FragColor = vec4(color, alpha);
+                            }
+                        `,
+                        uniforms: {
+                            time: { value: 0 }
+                        },
+                        transparent: true,
+                        side: THREE.DoubleSide
+                    });
+                    this.portal = new THREE.Mesh(portalGeo, portalMat);
+                    this.group.add(this.portal);
+                    
+                    // Gravitational lensing ring
+                    const lensGeo = new THREE.RingGeometry(38, 50, 64);
+                    const lensMat = new THREE.MeshBasicMaterial({
+                        color: 0x6666ff,
+                        transparent: true,
+                        opacity: 0.2,
+                        blending: THREE.AdditiveBlending
+                    });
+                    this.lens = new THREE.Mesh(lensGeo, lensMat);
+                    this.group.add(this.lens);
+                    
+                    // Add floating text
+                    const canvas = document.createElement('canvas');
+                    canvas.width = 512;
+                    canvas.height = 256;
+                    const ctx = canvas.getContext('2d');
+                    
+                    ctx.fillStyle = 'rgba(0,0,0,0)';
+                    ctx.fillRect(0, 0, 512, 256);
+                    
+                    ctx.font = 'bold 36px Orbitron';
+                    ctx.fillStyle = '#ffffff';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.shadowColor = '#8888ff';
+                    ctx.shadowBlur = 10;
+                    ctx.fillText(this.year.toString(), 256, 80);
+                    
+                    ctx.font = '24px Orbitron';
+                    ctx.fillText(this.event, 256, 140);
+                    
+                    const texture = new THREE.Texture(canvas);
+                    texture.needsUpdate = true;
+                    
+                    const textMat = new THREE.SpriteMaterial({
+                        map: texture,
+                        transparent: true,
+                        opacity: 0.8
+                    });
+                    
+                    this.textSprite = new THREE.Sprite(textMat);
+                    this.textSprite.scale.set(50, 25, 1);
+                    this.textSprite.position.y = 60;
+                    this.group.add(this.textSprite);
+                    
+                    // Add "Go Past!" hint for the first wormhole
+                    if (this.year === 2010) {
+                        const hintCanvas = document.createElement('canvas');
+                        hintCanvas.width = 512;
+                        hintCanvas.height = 256;
+                        const hintCtx = hintCanvas.getContext('2d');
+                        
+                        hintCtx.fillStyle = 'rgba(0,0,0,0)';
+                        hintCtx.fillRect(0, 0, 512, 256);
+                        
+                        hintCtx.font = 'bold 48px Orbitron';
+                        hintCtx.fillStyle = '#ffaa00';
+                        hintCtx.textAlign = 'center';
+                        hintCtx.textBaseline = 'middle';
+                        hintCtx.shadowColor = '#ff6600';
+                        hintCtx.shadowBlur = 25;
+                        hintCtx.fillText('↓ GO PAST! ↓', 256, 128);
+                        
+                        const hintTexture = new THREE.Texture(hintCanvas);
+                        hintTexture.needsUpdate = true;
+                        
+                        const hintMat = new THREE.SpriteMaterial({
+                            map: hintTexture,
+                            transparent: true,
+                            opacity: 0.9
+                        });
+                        
+                        this.hintSprite = new THREE.Sprite(hintMat);
+                        this.hintSprite.scale.set(80, 40, 1);
+                        this.hintSprite.position.y = -60;
+                        this.hintSprite.position.z = 10; // Bring forward in front of wormhole
+                        this.hintSprite.renderOrder = 1; // Ensure it renders on top
+                        this.group.add(this.hintSprite);
+                    }
+                    
+                    // Make the wormhole interactive
+                    this.group.userData = { 
+                        type: 'wormhole',
+                        event: this.event,
+                        year: this.year
+                    };
+                    
+                    scene.add(this.group);
+                }
+                
+                update(time) {
+                    // Rotate the wormhole
+                    this.outerRing.rotation.z += 0.01;
+                    this.portal.rotation.z -= 0.02;
+                    this.lens.rotation.z += 0.005;
+                    
+                    // Update shader uniforms
+                    this.outerRing.material.uniforms.time.value = time;
+                    this.portal.material.uniforms.time.value = time;
+                    
+                    // Pulsing effect
+                    const pulse = Math.sin(time * 2) * 0.1 + 1;
+                    this.lens.scale.set(pulse, pulse, 1);
+                    
+                    // Floating text
+                    this.textSprite.position.y = 40 + Math.sin(time) * 5;
+                    
+                    // Animate hint if present
+                    if (this.hintSprite) {
+                        this.hintSprite.position.y = -40 + Math.sin(time * 2) * 10;
+                        this.hintSprite.material.opacity = 0.5 + Math.sin(time * 3) * 0.5;
+                    }
+                }
+            }
+            
+            // Create wormholes for important life events
+            const events = [
+                { event: "Started Coding", year: 2010, position: new THREE.Vector3(-400, 100, -400) },
+                { event: "First AI Project", year: 2018, position: new THREE.Vector3(350, -80, -900) },
+                { event: "Senior Developer", year: 2020, position: new THREE.Vector3(-350, 120, -1400) },
+                { event: "AI Specialist", year: 2022, position: new THREE.Vector3(400, -100, -1900) }
+            ];
+            
+            events.forEach(event => {
+                const wormhole = new Wormhole(event.event, event.year, event.position);
+                wormholes.push(wormhole);
+            });
+        }
+
+
+        function createQuotes() {
+            // Quote definitions with translations
+            const quotesData = [
+                {
+                    es: "El código es poesía",
+                    en: "Code is poetry",
+                    it: "Il codice è poesia",
+                    de: "Code ist Poesie",
+                    pt: "Código é poesia",
+                    fr: "Le code est poésie",
+                    zh: "代码即诗歌",
+                    author: "- WordPress"
+                },
+                {
+                    es: "Innovar es vivir",
+                    en: "To innovate is to live",
+                    it: "Innovare è vivere",
+                    de: "Innovieren ist leben",
+                    pt: "Inovar é viver",
+                    fr: "Innover c'est vivre",
+                    zh: "创新即生活",
+                    author: "- Philippe Starck"
+                },
+                {
+                    es: "El futuro es ahora",
+                    en: "The future is now",
+                    it: "Il futuro è adesso",
+                    de: "Die Zukunft ist jetzt",
+                    pt: "O futuro é agora",
+                    fr: "Le futur c'est maintenant",
+                    zh: "未来就是现在",
+                    author: "- George Allen"
+                },
+                {
+                    es: "Sueña en código",
+                    en: "Dream in code",
+                    it: "Sogna in codice",
+                    de: "Träume in Code",
+                    pt: "Sonhe em código",
+                    fr: "Rêve en code",
+                    zh: "用代码做梦",
+                    author: "- Yukihiro Matsumoto"
+                },
+                {
+                    es: "La IA es el nuevo lienzo",
+                    en: "AI is the new canvas",
+                    it: "L'IA è la nuova tela",
+                    de: "KI ist die neue Leinwand",
+                    pt: "IA é a nova tela",
+                    fr: "L'IA est la nouvelle toile",
+                    zh: "AI是新画布",
+                    author: "- Mario Klingemann"
+                }
+            ];
+            
+            quotesData.forEach((quoteData, index) => {
+                const canvas = document.createElement('canvas');
+                canvas.width = 768;
+                canvas.height = 192;
+                const context = canvas.getContext('2d');
+                
+                // Set up canvas styling
+                context.fillStyle = 'rgba(0, 0, 0, 0)';
+                context.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Get current language quote
+                const quote = quoteData[currentLang] || quoteData.en;
+                
+                // Draw quote text with glow effect
+                context.font = 'italic 42px "Inter", sans-serif';
+                context.fillStyle = '#ffffff';
+                context.textAlign = 'center';
+                context.textBaseline = 'middle';
+                context.shadowColor = '#ff6b6b';
+                context.shadowBlur = 20;
+                context.fillText(`"${quote}"`, canvas.width / 2, canvas.height / 2 - 25);
+                
+                // Draw author
+                context.font = '28px "Inter", sans-serif';
+                context.shadowColor = '#6b9dff';
+                context.shadowBlur = 15;
+                context.fillText(quoteData.author, canvas.width / 2, canvas.height / 2 + 35);
+                
+                // Create texture from canvas
+                const texture = new THREE.Texture(canvas);
+                texture.needsUpdate = true;
+                
+                // Create sprite material
+                const material = new THREE.SpriteMaterial({
+                    map: texture,
+                    transparent: true,
+                    opacity: 0.6,
+                    blending: THREE.AdditiveBlending
+                });
+                
+                // Create sprite
+                const sprite = new THREE.Sprite(material);
+                sprite.scale.set(180, 45, 1);
+                
+                // Random position in 3D space (different from equations)
+                sprite.position.set(
+                    (Math.random() - 0.5) * 900,
+                    (Math.random() - 0.5) * 700,
+                    -Math.random() * 2200 - 200
+                );
+                
+                // Store quote data for language updates
+                sprite.userData = { quoteData: quoteData, index: index };
+                
+                scene.add(sprite);
+                quotes.push(sprite);
+            });
+        }
+
+        function updateSceneLighting() {
+            if (isDayMode) {
+                // Day mode
+                scene.fog = new THREE.FogExp2(0x87CEEB, 0.0003);
+                renderer.setClearColor(0x87CEEB, 1);
+                
+                // Show sunlight only
+                if (sunLight) sunLight.visible = true;
+                if (sun && sun.hemisphereLight) sun.hemisphereLight.visible = true;
+                
+                // Keep stars fully visible in day mode
+                if (starField) {
+                    starField.material.opacity = 0.8;
+                    starField.material.blending = THREE.AdditiveBlending;
+                }
+                
+                // Hide black holes in day mode
+                blackHoles.forEach(bh => bh.visible = false);
+                
+                // Keep equations visible
+                equations.forEach(eq => {
+                    eq.material.opacity = 0.7;
+                });
+                
+                // Keep quotes visible
+                quotes.forEach(quote => {
+                    quote.material.opacity = 0.6;
+                });
+                
+                // Make grid subtle in day mode
+                if (spacetimeGrid) {
+                    spacetimeGrid.children.forEach(child => {
+                        if (child.material) {
+                            child.material.opacity = child.material.opacity * 0.5; // Reduce opacity by half
+                        }
+                    });
+                }
+                
+                // Keep wormholes visible in day mode
+                wormholes.forEach(wormhole => {
+                    wormhole.group.visible = true;
+                });
+                
+                
+                // Brighter ambient light for day
+                scene.children.forEach(child => {
+                    if (child.type === 'AmbientLight') {
+                        child.intensity = 1;
+                        child.color = new THREE.Color(0xffffff);
+                    }
+                });
+            } else {
+                // Night mode
+                scene.fog = new THREE.FogExp2(0x000000, 0.0008);
+                renderer.setClearColor(0x000000, 1);
+                
+                // Hide sun light
+                if (sunLight) sunLight.visible = false;
+                if (sun && sun.hemisphereLight) sun.hemisphereLight.visible = false;
+                
+                // Restore star opacity and blending for night
+                if (starField) {
+                    starField.material.opacity = 0.8;
+                    starField.material.blending = THREE.AdditiveBlending;
+                }
+                
+                // Show black holes
+                blackHoles.forEach(bh => bh.visible = true);
+                
+                // Keep equations visible
+                equations.forEach(eq => {
+                    eq.material.opacity = 0.7;
+                });
+                
+                // Keep quotes visible
+                quotes.forEach(quote => {
+                    quote.material.opacity = 0.6;
+                });
+                
+                // Keep grid visible in night mode
+                if (spacetimeGrid) {
+                    spacetimeGrid.children.forEach((child, index) => {
+                        if (child.material && child.material.opacity) {
+                            // Restore original opacity
+                            if (index < 4) { // The layered grids (now 4 instead of 5)
+                                child.material.opacity = 0.15 - index * 0.02;
+                            } else {
+                                child.material.opacity = 0.15;
+                            }
+                        }
+                    });
+                }
+                
+                // Keep wormholes visible in night mode
+                wormholes.forEach(wormhole => {
+                    wormhole.group.visible = true;
+                });
+                
+                
+                // Dim ambient light for night
+                scene.children.forEach(child => {
+                    if (child.type === 'AmbientLight') {
+                        child.intensity = 0.5;
+                        child.color = new THREE.Color(0x404040);
+                    }
+                });
+            }
+        }
+
+        function createSections() {
+            // Add ambient light
+            const ambientLight = new THREE.AmbientLight(0x404040, 0.5);
+            scene.add(ambientLight);
+
+            // Add point light that follows camera
+            const pointLight = new THREE.PointLight(0x667eea, 1, 100);
+            pointLight.position.set(0, 0, 0);
+            scene.add(pointLight);
+
+            // Define section positions along Z axis
+            const sectionPositions = [0, -500, -1000, -1500, -2000];
+            
+            sectionPositions.forEach((zPos, index) => {
+                const sectionGroup = new THREE.Group();
+                sectionGroup.position.z = zPos;
+                
+                // Add floating particles around each section
+                const particlesGeometry = new THREE.BufferGeometry();
+                const particleCount = 500;
+                const positions = [];
+                
+                for (let i = 0; i < particleCount; i++) {
+                    const theta = Math.random() * Math.PI * 2;
+                    const phi = Math.random() * Math.PI;
+                    const radius = 100 + Math.random() * 100;
+                    
+                    positions.push(
+                        radius * Math.sin(phi) * Math.cos(theta),
+                        radius * Math.sin(phi) * Math.sin(theta),
+                        radius * Math.cos(phi)
+                    );
+                }
+                
+                particlesGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+                
+                const particlesMaterial = new THREE.PointsMaterial({
+                    color: 0x667eea,
+                    size: 1,
+                    transparent: true,
+                    opacity: 0.6,
+                    blending: THREE.AdditiveBlending
+                });
+                
+                const particles = new THREE.Points(particlesGeometry, particlesMaterial);
+                sectionGroup.add(particles);
+                
+                sections.push(sectionGroup);
+                scene.add(sectionGroup);
+            });
+        }
+
+        function onMouseWheel(event) {
+            event.preventDefault();
+            
+            // Reverse scroll direction - down goes deeper (forward in sections)
+            const delta = event.deltaY > 0 ? 1 : -1;
+            let newSection = currentSection + delta;
+            
+            // Infinite loop
+            if (newSection < 0) {
+                newSection = 4; // Go to last section
+            } else if (newSection > 4) {
+                newSection = 0; // Go to first section
+            }
+            
+            if (newSection !== currentSection) {
+                navigateToSection(newSection);
+            }
+        }
+
+        function navigateToSection(sectionIndex) {
+            currentSection = sectionIndex;
+            // Go deeper into space (negative Z) as sections progress
+            targetZ = -sectionIndex * 500;
+            
+            // Update navigation dots
+            document.querySelectorAll('.nav-dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === sectionIndex);
+            });
+            
+            // Update section content
+            document.querySelectorAll('.section-content').forEach((content, index) => {
+                content.classList.toggle('active', index === sectionIndex);
+            });
+            
+            // Hide scroll indicator after first scroll
+            if (sectionIndex > 0) {
+                document.getElementById('scrollIndicator').style.opacity = '0';
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            const time = clock.getElapsedTime();
+            const delta = clock.getDelta();
+            
+            // Animate camera movement
+            camera.position.z += (targetZ - camera.position.z) * 0.05;
+            
+            // Slight camera sway
+            camera.position.x = Math.sin(time * 0.2) * 10;
+            camera.position.y = Math.cos(time * 0.3) * 10;
+            
+            // Rotate star field
+            if (starField) {
+                starField.rotation.z = time * 0.05;
+            }
+            
+            // Animate sun light position only
+            if (sunLight && sunLight.visible) {
+                sunLight.position.x = 300 * Math.cos(time * 0.05);
+                sunLight.position.y = 400 + 100 * Math.sin(time * 0.1);
+                sunLight.position.z = -200;
+            }
+            
+            // Animate black holes
+            blackHoles.forEach((blackHole, index) => {
+                blackHole.rotation.z += blackHole.userData.rotationSpeed;
+                blackHole.rotation.x = Math.sin(time + index) * 0.1;
+                
+                // Orbit motion
+                const orbitRadius = 100;
+                blackHole.position.x += Math.sin(time * blackHole.userData.orbitSpeed) * orbitRadius * 0.01;
+                blackHole.position.y += Math.cos(time * blackHole.userData.orbitSpeed) * orbitRadius * 0.01;
+            });
+            
+            // Animate supernovas
+            supernovas.forEach(supernova => {
+                supernova.update(delta);
+            });
+            
+            // Animate equations
+            equations.forEach((equation, index) => {
+                equation.rotation.x += 0.005 * (index % 2 ? 1 : -1);
+                equation.rotation.y += 0.007 * (index % 3 ? 1 : -1);
+                equation.rotation.z += 0.003 * (index % 4 ? 1 : -1);
+                
+                // Gentle floating motion
+                equation.position.y += Math.sin(time * 0.5 + index) * 0.1;
+                equation.position.x += Math.cos(time * 0.3 + index) * 0.05;
+            });
+            
+            // Animate quotes
+            quotes.forEach((quote, index) => {
+                // Slower rotation for quotes
+                quote.rotation.x += 0.002 * (index % 2 ? 1 : -1);
+                quote.rotation.y += 0.003 * (index % 3 ? 1 : -1);
+                quote.rotation.z += 0.001 * (index % 4 ? 1 : -1);
+                
+                // Different floating pattern
+                quote.position.y += Math.sin(time * 0.3 + index * 2) * 0.15;
+                quote.position.x += Math.cos(time * 0.4 + index * 2) * 0.1;
+            });
+            
+            // Update spacetime grid
+            if (spacetimeGrid && spacetimeGrid.userData.warpedGrid) {
+                spacetimeGrid.userData.warpedGrid.material.uniforms.time.value = time;
+            }
+            
+            // Animate wormholes
+            wormholes.forEach(wormhole => {
+                wormhole.update(time);
+            });
+            
+            
+            // Animate section particles
+            sections.forEach((section, index) => {
+                if (section.children[0]) {
+                    section.children[0].rotation.y = time * 0.1;
+                    section.children[0].rotation.x = time * 0.05;
+                }
+            });
+            
+            renderer.render(scene, camera);
+        }
+
+        // Window resize handler
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Initialize Three.js when page loads
+        window.addEventListener('load', initThreeJS);
+
+        // Keyboard navigation (reversed to match scroll) with infinite loop
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                let newSection = currentSection - 1;
+                if (newSection < 0) newSection = 4; // Loop to last section
+                navigateToSection(newSection);
+            } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                let newSection = currentSection + 1;
+                if (newSection > 4) newSection = 0; // Loop to first section
+                navigateToSection(newSection);
+            }
+        });
+    </script>
 </body>
 </html>
