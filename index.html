@@ -25,6 +25,11 @@
             color: #fff;
             overflow: hidden;
             transition: background 0.5s ease;
+            overscroll-behavior: none;
+            touch-action: none;
+            position: fixed;
+            width: 100%;
+            height: 100vh;
         }
 
         body.day-mode {
@@ -564,31 +569,56 @@
             animation: float 3s ease-in-out infinite;
         }
 
+        .mobile-text {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .desktop-text {
+                display: none;
+            }
+            .mobile-text {
+                display: inline;
+            }
+        }
+
         @keyframes float {
             0%, 100% { transform: translateX(-50%) translateY(0); }
             50% { transform: translateX(-50%) translateY(-10px); }
         }
 
+        @keyframes sectionBounce {
+            0% { transform: translateY(0) scale(0.95); }
+            60% { transform: translateY(0) scale(1.02); }
+            80% { transform: translateY(0) scale(0.98); }
+            100% { transform: translateY(0) scale(1); }
+        }
+
         .section-content {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
             z-index: 50;
             text-align: center;
             opacity: 0;
-            transition: opacity 1s ease;
+            transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             pointer-events: none;
-            max-width: 90vw;
-            max-height: 90vh;
             overflow-y: auto;
             overflow-x: hidden;
             padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transform: translateY(100%);
         }
 
         .section-content.active {
             opacity: 1;
             pointer-events: all;
+            transform: translateY(0);
         }
 
         .hero-title {
@@ -1004,7 +1034,10 @@
         <div class="nav-dot" data-section="4" data-title="Contacto" data-i18n-title="nav_contact"></div>
     </div>
 
-    <div class="scroll-indicator" id="scrollIndicator" data-i18n="scroll">Scroll para navegar</div>
+    <div class="scroll-indicator" id="scrollIndicator">
+        <span class="desktop-text" data-i18n="scroll">Scroll para navegar</span>
+        <span class="mobile-text" data-i18n="swipe">Desliza para navegar</span>
+    </div>
 
     <!-- Section Contents -->
     <div class="section-content active" id="section-0">
@@ -1087,6 +1120,7 @@
                 nav_ai: "IA",
                 nav_contact: "Contacto",
                 scroll: "Scroll para navegar",
+                swipe: "Desliza para navegar",
                 subtitle: "Desarrollador Full Stack & IA",
                 about_title: "Sobre mí",
                 about_text: "Soy un desarrollador senior de Montevideo apasionado por la inteligencia artificial y el desarrollo de soluciones tecnológicas de vanguardia. Especializado en crear aplicaciones inteligentes que aprovechan el poder del aprendizaje automático y el procesamiento del lenguaje natural. Me fascina explorar los límites de la IA, desde el desarrollo de modelos de lenguaje hasta la implementación de sistemas de recomendación y análisis predictivo. Fuera del teclado, soy hincha de Nacional y del Liverpool inglés, y voy regularmente al gimnasio para mantenerme activo.",
@@ -1107,6 +1141,7 @@
                 nav_ai: "AI",
                 nav_contact: "Contact",
                 scroll: "Scroll to navigate",
+                swipe: "Swipe to navigate",
                 subtitle: "Full Stack & AI Developer",
                 about_title: "About me",
                 about_text: "I'm a senior developer from Montevideo passionate about artificial intelligence and cutting-edge technology solutions. Specialized in creating intelligent applications that leverage the power of machine learning and natural language processing. I'm fascinated by exploring the limits of AI, from developing language models to implementing recommendation systems and predictive analytics. Outside of coding, I support Nacional and Liverpool FC, and regularly hit the gym to stay active.",
@@ -1127,6 +1162,7 @@
                 nav_ai: "IA",
                 nav_contact: "Contatti",
                 scroll: "Scorri per navigare",
+                swipe: "Scorri per navigare",
                 subtitle: "Sviluppatore Full Stack & IA",
                 about_title: "Chi sono",
                 about_text: "Sono uno sviluppatore senior di Montevideo appassionato di intelligenza artificiale e sviluppo di soluzioni tecnologiche all'avanguardia. Specializzato nella creazione di applicazioni intelligenti che sfruttano la potenza del machine learning e dell'elaborazione del linguaggio naturale. Mi affascina esplorare i limiti dell'IA, dallo sviluppo di modelli linguistici all'implementazione di sistemi di raccomandazione e analisi predittiva. Fuori dal codice, tifo Nacional e Liverpool FC, e vado regolarmente in palestra per mantenermi attivo.",
@@ -1147,6 +1183,7 @@
                 nav_ai: "KI",
                 nav_contact: "Kontakt",
                 scroll: "Scrollen zum Navigieren",
+                swipe: "Wischen zum Navigieren",
                 subtitle: "Full Stack & KI Entwickler",
                 about_title: "Über mich",
                 about_text: "Ich bin ein Senior-Entwickler aus Montevideo mit Leidenschaft für künstliche Intelligenz und modernste Technologielösungen. Spezialisiert auf die Erstellung intelligenter Anwendungen, die die Kraft des maschinellen Lernens und der natürlichen Sprachverarbeitung nutzen. Es fasziniert mich, die Grenzen der KI zu erkunden, von der Entwicklung von Sprachmodellen bis zur Implementierung von Empfehlungssystemen und prädiktiver Analytik. Außerhalb des Programmierens bin ich Fan von Nacional und Liverpool FC und gehe regelmäßig ins Fitnessstudio.",
@@ -1167,6 +1204,7 @@
                 nav_ai: "IA",
                 nav_contact: "Contato",
                 scroll: "Role para navegar",
+                swipe: "Deslize para navegar",
                 subtitle: "Desenvolvedor Full Stack & IA",
                 about_title: "Sobre mim",
                 about_text: "Sou um desenvolvedor sênior de Montevidéu apaixonado por inteligência artificial e desenvolvimento de soluções tecnológicas de ponta. Especializado em criar aplicações inteligentes que aproveitam o poder do aprendizado de máquina e processamento de linguagem natural. Me fascina explorar os limites da IA, desde o desenvolvimento de modelos de linguagem até a implementação de sistemas de recomendação e análise preditiva. Fora do código, torço para o Nacional e Liverpool FC, e vou regularmente à academia para me manter ativo.",
@@ -1187,6 +1225,7 @@
                 nav_ai: "IA",
                 nav_contact: "Contact",
                 scroll: "Faites défiler pour naviguer",
+                swipe: "Glissez pour naviguer",
                 subtitle: "Développeur Full Stack & IA",
                 about_title: "À propos de moi",
                 about_text: "Je suis un développeur senior de Montevideo passionné par l'intelligence artificielle et le développement de solutions technologiques de pointe. Spécialisé dans la création d'applications intelligentes qui exploitent la puissance de l'apprentissage automatique et du traitement du langage naturel. Je suis fasciné par l'exploration des limites de l'IA, du développement de modèles linguistiques à la mise en œuvre de systèmes de recommandation et d'analyse prédictive. En dehors du code, je supporte Nacional et Liverpool FC, et je vais régulièrement à la salle de sport.",
@@ -1207,6 +1246,7 @@
                 nav_ai: "人工智能",
                 nav_contact: "联系方式",
                 scroll: "滚动导航",
+                swipe: "滑动导航",
                 subtitle: "全栈及人工智能开发者",
                 about_title: "关于我",
                 about_text: "我是来自蒙得维的亚的高级开发人员，对人工智能和尖端技术解决方案充满热情。专注于创建利用机器学习和自然语言处理能力的智能应用程序。我着迷于探索人工智能的极限，从开发语言模型到实施推荐系统和预测分析。在编程之外，我是Nacional和利物浦足球俱乐部的球迷，并定期去健身房保持活力。",
@@ -1756,6 +1796,51 @@
 
             // Mouse wheel handler
             window.addEventListener('wheel', onMouseWheel);
+
+            // Touch handlers for mobile swipe navigation
+            let touchStartY = 0;
+            let touchEndY = 0;
+            let touchStartTime = 0;
+            const MIN_SWIPE_DISTANCE = 50;
+            const MAX_SWIPE_TIME = 500; // milliseconds
+
+            window.addEventListener('touchstart', (e) => {
+                touchStartY = e.changedTouches[0].screenY;
+                touchStartTime = Date.now();
+            }, { passive: true });
+
+            window.addEventListener('touchmove', (e) => {
+                // Prevent default scrolling behavior on mobile
+                e.preventDefault();
+            }, { passive: false });
+
+            window.addEventListener('touchend', (e) => {
+                touchEndY = e.changedTouches[0].screenY;
+                const touchEndTime = Date.now();
+                const swipeTime = touchEndTime - touchStartTime;
+                
+                if (swipeTime < MAX_SWIPE_TIME) {
+                    handleSwipe();
+                }
+            }, { passive: true });
+
+            function handleSwipe() {
+                const swipeDistance = touchStartY - touchEndY;
+                
+                if (Math.abs(swipeDistance) > MIN_SWIPE_DISTANCE) {
+                    if (swipeDistance > 0) {
+                        // Swipe up - go to next section
+                        let newSection = currentSection + 1;
+                        if (newSection > 4) newSection = 0;
+                        navigateToSection(newSection);
+                    } else {
+                        // Swipe down - go to previous section
+                        let newSection = currentSection - 1;
+                        if (newSection < 0) newSection = 4;
+                        navigateToSection(newSection);
+                    }
+                }
+            }
 
             // Navigation click handlers
             document.querySelectorAll('.nav-dot').forEach(dot => {
@@ -2950,9 +3035,20 @@
                 dot.classList.toggle('active', index === sectionIndex);
             });
             
-            // Update section content
+            // Update section content with animation
             document.querySelectorAll('.section-content').forEach((content, index) => {
-                content.classList.toggle('active', index === sectionIndex);
+                if (index === sectionIndex) {
+                    content.classList.add('active');
+                    // Add a subtle bounce effect on mobile
+                    if ('ontouchstart' in window) {
+                        content.style.animation = 'sectionBounce 0.6s ease-out';
+                        setTimeout(() => {
+                            content.style.animation = '';
+                        }, 600);
+                    }
+                } else {
+                    content.classList.remove('active');
+                }
             });
             
             // Hide scroll indicator after first scroll
